@@ -1,0 +1,71 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ai-zippy-child/heritage",
+  "version": "1.0.0",
+  "title": "Heritage",
+  "category": "ai-zippy",
+  "icon": "format-gallery",
+  "description": "A two-column heritage section with overlapping images and text content.",
+  "keywords": [
+    "heritage",
+    "history",
+    "about",
+    "story",
+    "images"
+  ],
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "color": {
+      "background": true,
+      "text": true
+    },
+    "spacing": {
+      "margin": true,
+      "padding": true
+    }
+  },
+  "attributes": {
+    "image1Id": {
+      "type": "number",
+      "default": 0
+    },
+    "image1Url": {
+      "type": "string",
+      "default": ""
+    },
+    "image1Alt": {
+      "type": "string",
+      "default": ""
+    },
+    "image2Id": {
+      "type": "number",
+      "default": 0
+    },
+    "image2Url": {
+      "type": "string",
+      "default": ""
+    },
+    "image2Alt": {
+      "type": "string",
+      "default": ""
+    },
+    "heading": {
+      "type": "string",
+      "default": "A Singapore Favourite Since 1992"
+    },
+    "description": {
+      "type": "string",
+      "default": "From classic steamed buns to flavourful dim sum — authentic tastes made fresh, perfect for every meal and moment."
+    }
+  },
+  "textdomain": "ai-zippy-child",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

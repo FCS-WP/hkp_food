@@ -1,0 +1,70 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ai-zippy-child/brand-story",
+  "version": "1.0.0",
+  "title": "Brand Story",
+  "category": "ai-zippy",
+  "icon": "heart",
+  "description": "A two-column brand story section with icon, heading, description, and featured image.",
+  "keywords": [
+    "brand",
+    "story",
+    "about",
+    "intro"
+  ],
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "color": {
+      "background": true,
+      "text": true
+    },
+    "spacing": {
+      "margin": true,
+      "padding": true
+    }
+  },
+  "attributes": {
+    "iconId": {
+      "type": "number",
+      "default": 0
+    },
+    "iconUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "iconAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "heading": {
+      "type": "string",
+      "default": "Handmade Goodness in Every Bite"
+    },
+    "description": {
+      "type": "string",
+      "default": "Since 1992, Ho Kee Pau has been serving Singapore handmade buns, dim sum, and local favourites that everyone loves."
+    },
+    "imageId": {
+      "type": "number",
+      "default": 0
+    },
+    "imageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "imageAlt": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "textdomain": "ai-zippy-child",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

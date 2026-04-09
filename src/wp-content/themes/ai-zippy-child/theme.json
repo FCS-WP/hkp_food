@@ -2,7 +2,35 @@
 	"$schema": "https://schemas.wp.org/trunk/theme.json",
 	"version": 3,
 	"settings": {
-		"appearanceTools": true
+		"appearanceTools": true,
+		"typography": {
+			"fontFamilies": [
+				{
+					"fontFamily": "'Poppins', sans-serif",
+					"slug": "poppins",
+					"name": "Poppins"
+				},
+				{
+					"fontFamily": "'Urbanist', sans-serif",
+					"slug": "urbanist",
+					"name": "Urbanist"
+				}
+			]
+		},
+		"color": {
+			"palette": [
+				{
+					"slug": "primary",
+					"color": "#c8000d",
+					"name": "Primary"
+				},
+				{
+					"slug": "secondary",
+					"color": "#060606",
+					"name": "Secondary"
+				}
+			]
+		}
 	},
 	"styles": {}
 }

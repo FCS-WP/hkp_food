@@ -1,0 +1,16 @@
+// Features - Editor-only styles
+
+.wp-block-ai-zippy-child-features {
+	.features__icon-placeholder {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 64px;
+		height: 64px;
+		background: linear-gradient(135deg, #f5f5f5, #e5e5e5);
+		color: #666;
+		font-size: 0.75rem;
+		border-radius: 50%;
+		text-align: center;
+	}
+}

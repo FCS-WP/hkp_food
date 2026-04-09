@@ -1,0 +1,182 @@
+// Heritage — Frontend + Editor styles
+
+// Brand colors
+$brand-red: #c8000d;
+$brand-bg: #fafafa;
+$brand-text: #1a1a1a;
+
+// Font families from theme.json
+$font-heading: var(--wp--preset--font-family--poppins, 'Poppins', sans-serif);
+$font-body: var(--wp--preset--font-family--urbanist, 'Urbanist', sans-serif);
+
+.wp-block-ai-zippy-child-heritage {
+	position: relative;
+	overflow: hidden;
+	background-color: $brand-bg;
+	padding: 4rem 2rem;
+
+	// Subtle watermark pattern (optional)
+	&::before {
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 300px;
+		height: 200px;
+		background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='10' y='60' font-size='40' fill='%23c8000d' opacity='0.05'%3E%E5%92%8C%3C/text%3E%3C/svg%3E") no-repeat bottom left;
+		background-size: contain;
+		pointer-events: none;
+		z-index: 0;
+	}
+
+	// Main container - two column layout
+	.heritage__container {
+		position: relative;
+		z-index: 1;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		align-items: center;
+		gap: 4rem;
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+
+	// ---- LEFT COLUMN: Images ----
+	.heritage__images {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 450px;
+	}
+
+	.heritage__image-wrapper {
+		position: relative;
+		overflow: hidden;
+		border-radius: 8px;
+		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+
+		&--1 {
+			position: absolute;
+			left: 0;
+			top: 40%;
+			transform: translateY(-50%);
+			width: 48%;
+			margin-left: 12%;
+			z-index: 1;
+		}
+
+		&--2 {
+			position: relative;
+			width: 35%;
+			margin-left: 65%;
+			z-index: 2;
+		}
+	}
+
+	.heritage__image {
+		display: block;
+		width: 100%;
+		height: auto;
+		aspect-ratio: 3 / 4;
+		object-fit: cover;
+	}
+
+	.heritage__image-wrapper--1 .heritage__image {
+		aspect-ratio: 445 / 634;
+	}
+
+	.heritage__image-wrapper--2 .heritage__image {
+		aspect-ratio: 326 / 634;
+	}
+
+	// ---- RIGHT COLUMN: Content ----
+	.heritage__content {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+		padding: 2rem 0;
+	}
+
+	// Heading - Poppins font
+	.heritage__heading {
+		font-family: $font-heading;
+		font-size: clamp(2rem, 4vw, 3rem);
+		font-weight: 700;
+		line-height: 1.15;
+		color: $brand-red;
+		margin: 0;
+		max-width: 450px;
+	}
+
+	// Description - Urbanist font
+	.heritage__description {
+		font-family: $font-body;
+		font-size: 1.125rem;
+		font-weight: 400;
+		line-height: 1.7;
+		color: $brand-text;
+		margin: 0;
+		max-width: 420px;
+	}
+
+	// ---- RESPONSIVE ----
+	@media (max-width: 960px) {
+		padding: 3rem 1.5rem;
+
+		.heritage__container {
+			grid-template-columns: 1fr;
+			gap: 2rem;
+		}
+
+		.heritage__images {
+			min-height: 350px;
+			order: 1;
+		}
+
+		.heritage__image-wrapper {
+			&--1 {
+				width: 50%;
+			}
+
+			&--2 {
+				width: 50%;
+				margin-left: 40%;
+			}
+		}
+
+		.heritage__content {
+			order: 2;
+			text-align: center;
+			align-items: center;
+			padding: 1rem 0;
+		}
+	}
+
+	@media (max-width: 480px) {
+		padding: 2rem 1rem;
+
+		.heritage__images {
+			min-height: 280px;
+		}
+
+		.heritage__image-wrapper {
+			&--1 {
+				width: 55%;
+			}
+
+			&--2 {
+				width: 55%;
+				margin-left: 35%;
+			}
+		}
+
+		.heritage__heading {
+			font-size: 1.75rem;
+		}
+
+		.heritage__description {
+			font-size: 1rem;
+		}
+	}
+}

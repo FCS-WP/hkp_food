@@ -1,0 +1,224 @@
+// Testimonials — Frontend + Editor styles
+
+// Brand colors
+$brand-red: #c8000d;
+$brand-bg: #fafafa;
+$brand-text: #1a1a1a;
+$brand-text-muted: #666666;
+$star-color: #ffc107;
+
+// Font families from theme.json
+$font-heading: var(--wp--preset--font-family--poppins, 'Poppins', sans-serif);
+$font-body: var(--wp--preset--font-family--urbanist, 'Urbanist', sans-serif);
+
+.wp-block-ai-zippy-child-testimonials {
+	position: relative;
+	overflow: hidden;
+	background-color: $brand-bg;
+
+	// Main container - two column layout
+	.testimonials__container {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 0;
+		max-width: 1400px;
+		margin: 0 auto;
+		min-height: 500px;
+	}
+
+	// ---- LEFT COLUMN: Image ----
+	.testimonials__image-col {
+		position: relative;
+		overflow: hidden;
+	}
+
+	.testimonials__image {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		min-height: 500px;
+	}
+
+	// ---- RIGHT COLUMN: Slider ----
+	.testimonials__content-col {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding: 4rem 5rem;
+		position: relative;
+	}
+
+	// Heading - Poppins font
+	.testimonials__heading {
+		font-family: $font-heading;
+		font-size: clamp(1.75rem, 4vw, 2.5rem);
+		font-weight: 600;
+		line-height: 1.2;
+		color: $brand-red;
+		margin: 0 0 2rem;
+		text-align: center;
+	}
+
+	// Slider container
+	.testimonials__slider {
+		position: relative;
+	}
+
+	.testimonials__slides {
+		position: relative;
+		overflow: hidden;
+	}
+
+	// Individual slide
+	.testimonials__slide {
+		display: none;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 1.5rem;
+		animation: fadeIn 0.4s ease;
+
+	&[data-active] {
+			display: flex;
+		}
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateX(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateX(0);
+		}
+	}
+
+	// Quote - Urbanist font
+	.testimonials__quote {
+		font-family: $font-body;
+		font-size: 1.125rem;
+		font-weight: 400;
+		line-height: 1.8;
+		color: $brand-text;
+		margin: 0;
+		text-align: center;
+	}
+
+	// Star rating
+	.testimonials__rating {
+		display: flex;
+		gap: 0.25rem;
+		font-size: 1.5rem;
+		color: #ddd;
+		margin: 0 auto;
+
+		.testimonials__star {
+			&.is-active {
+				color: $star-color;
+			}
+		}
+	}
+
+	// Author - Poppins font
+	.testimonials__author {
+		font-family: $font-heading;
+		font-size: 1.1rem;
+		font-weight: 500;
+		color: $brand-text;
+		margin: 0 auto;
+	}
+
+	// Navigation arrows
+	.testimonials__nav {
+		position: absolute;
+		top: 50%;
+		left: -5rem;
+		right: -5rem;
+		transform: translateY(-50%);
+		display: flex;
+		justify-content: space-between;
+		pointer-events: none;
+		z-index: 10;
+	}
+
+	.testimonials__nav-btn {
+		width: 48px;
+		height: 48px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: transparent;
+		border: none;
+		color: $brand-text-muted;
+		cursor: pointer;
+		pointer-events: auto;
+		transition: color 0.3s ease, transform 0.2s ease;
+
+		&:hover:not(:disabled) {
+			color: $brand-red;
+			transform: scale(1.1);
+		}
+
+		&:disabled {
+			opacity: 0.3;
+			cursor: not-allowed;
+		}
+
+		svg {
+			width: 32px;
+			height: 32px;
+		}
+	}
+
+	// ---- RESPONSIVE ----
+	@media (max-width: 1024px) {
+		.testimonials__container {
+			grid-template-columns: 1fr;
+		}
+
+		.testimonials__image-col {
+			min-height: 300px;
+		}
+
+		.testimonials__image {
+			min-height: 300px;
+			max-height: 400px;
+		}
+
+		.testimonials__content-col {
+			padding: 3rem 2rem;
+		}
+
+		.testimonials__nav {
+			position: static;
+			transform: none;
+			margin-top: 2rem;
+			justify-content: center;
+			gap: 2rem;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.testimonials__image-col {
+			min-height: 250px;
+		}
+
+		.testimonials__image {
+			min-height: 250px;
+		}
+
+		.testimonials__content-col {
+			padding: 2rem 1.5rem;
+		}
+
+		.testimonials__heading {
+			font-size: 1.5rem;
+			margin-bottom: 1.5rem;
+		}
+
+		.testimonials__quote {
+			font-size: 1rem;
+		}
+	}
+}
