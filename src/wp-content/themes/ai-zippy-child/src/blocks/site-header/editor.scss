@@ -1,0 +1,157 @@
+// Site Header block – editor-only styles
+
+.site-header-editor {
+	&__inner {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+		padding: 1.5rem;
+		background: #fff;
+		border: 1px solid #e0e0e0;
+		border-radius: 4px;
+	}
+
+	&__section {
+		border-bottom: 1px solid #f0f0f0;
+		padding-bottom: 1.25rem;
+
+		&:last-child {
+			border-bottom: none;
+			padding-bottom: 0;
+		}
+	}
+
+	&__section-title {
+		font-size: 0.7rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: #888;
+		margin: 0 0 0.75rem;
+	}
+
+	&__label {
+		font-size: 0.75rem;
+		color: #555;
+		margin: 0 0 0.4rem;
+	}
+
+	// Logo thumbnail
+	&__logo-thumb {
+		width: 120px;
+		height: 80px;
+		border: 2px dashed #ccc;
+		border-radius: 6px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		overflow: hidden;
+		font-size: 0.75rem;
+		color: #888;
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
+		}
+
+		&:hover {
+			border-color: #c0392b;
+		}
+	}
+
+	// Nav rows
+	&__nav-item {
+		margin-bottom: 0.75rem;
+		background: #fafafa;
+		border: 1px solid #ececec;
+		border-radius: 6px;
+		padding: 0.75rem;
+	}
+
+	&__nav-row {
+		display: flex;
+		align-items: flex-end;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+
+		.components-base-control {
+			flex: 1;
+			min-width: 120px;
+			margin-bottom: 0;
+		}
+	}
+
+	// Sub-items
+	&__children {
+		margin-top: 0.75rem;
+		padding-left: 1rem;
+		border-left: 3px solid #f0e0e0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	&__child-row {
+		display: flex;
+		align-items: flex-end;
+		gap: 0.5rem;
+
+		.components-base-control {
+			flex: 1;
+			margin-bottom: 0;
+		}
+	}
+
+	// Action icons
+	&__icons-row {
+		display: flex;
+		gap: 1.5rem;
+		flex-wrap: wrap;
+		margin-bottom: 1rem;
+	}
+
+	&__icon-uploader {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.35rem;
+	}
+
+	&__icon-thumb {
+		width: 48px;
+		height: 48px;
+		border: 2px dashed #ccc;
+		border-radius: 6px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		overflow: hidden;
+		font-size: 0.6rem;
+		color: #888;
+		text-align: center;
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
+		}
+
+		&:hover {
+			border-color: #c0392b;
+		}
+	}
+
+	&__icon-urls {
+		display: flex;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+
+		.components-base-control {
+			flex: 1;
+			min-width: 150px;
+		}
+	}
+}

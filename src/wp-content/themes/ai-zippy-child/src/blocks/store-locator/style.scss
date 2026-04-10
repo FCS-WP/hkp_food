@@ -1,0 +1,40 @@
+// Store Locator block – frontend styles
+$brand-red: #c0392b;
+$brand-text: #2c2c2c;
+$section-bg: #fff;
+
+.store-locator {
+	width: 100%;
+	padding: 4rem 2rem;
+	background-color: $section-bg;
+	box-sizing: border-box;
+
+	// Section heading
+	&__heading {
+		font-family: var(--wp--preset--font-family--poppins);
+		font-size: clamp(1.75rem, 3vw, 2.5rem);
+		font-weight: 700;
+		color: $brand-red;
+		text-align: center;
+		margin: 0 0 2.5rem;
+		line-height: 1.2;
+	}
+
+	// Map / plugin wrapper
+	&__map-wrapper {
+		width: 100%;
+		max-width: 1100px;
+		margin: 0 auto;
+		border-radius: 12px;
+		overflow: hidden;
+		box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+
+		// Make any iframes or maps inside responsive
+		iframe,
+		.asl_map,
+		.asl_container {
+			width: 100% !important;
+			max-width: 100% !important;
+		}
+	}
+}

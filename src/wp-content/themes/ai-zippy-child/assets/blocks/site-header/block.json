@@ -1,0 +1,141 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ai-zippy-child/site-header",
+  "version": "1.0.0",
+  "title": "Site Header",
+  "category": "ai-zippy",
+  "icon": "menu",
+  "description": "Sticky header with logo, navigation (Shop has hover dropdown), and icon actions (search, cart, account as PNG images).",
+  "keywords": [
+    "header",
+    "navigation",
+    "nav",
+    "menu",
+    "logo"
+  ],
+  "supports": {
+    "html": false,
+    "align": [
+      "full"
+    ],
+    "spacing": {
+      "margin": true,
+      "padding": true
+    }
+  },
+  "attributes": {
+    "logoId": {
+      "type": "number",
+      "default": 0
+    },
+    "logoUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "logoAlt": {
+      "type": "string",
+      "default": "Ho Kee Pau"
+    },
+    "navLinks": {
+      "type": "array",
+      "default": [
+        {
+          "label": "Home",
+          "url": "/",
+          "isActive": true,
+          "hasDropdown": false,
+          "children": []
+        },
+        {
+          "label": "About Us",
+          "url": "/about",
+          "isActive": false,
+          "hasDropdown": false,
+          "children": []
+        },
+        {
+          "label": "Shop",
+          "url": "/shop",
+          "isActive": false,
+          "hasDropdown": true,
+          "children": [
+            {
+              "label": "All Products",
+              "url": "/shop"
+            },
+            {
+              "label": "Buns & Pau",
+              "url": "/shop/buns"
+            },
+            {
+              "label": "Dim Sum",
+              "url": "/shop/dim-sum"
+            }
+          ]
+        },
+        {
+          "label": "Contact Us",
+          "url": "/contact",
+          "isActive": false,
+          "hasDropdown": false,
+          "children": []
+        }
+      ]
+    },
+    "searchIconId": {
+      "type": "number",
+      "default": 0
+    },
+    "searchIconUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "searchIconAlt": {
+      "type": "string",
+      "default": "Search"
+    },
+    "cartIconId": {
+      "type": "number",
+      "default": 0
+    },
+    "cartIconUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "cartIconAlt": {
+      "type": "string",
+      "default": "Cart"
+    },
+    "accountIconId": {
+      "type": "number",
+      "default": 0
+    },
+    "accountIconUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "accountIconAlt": {
+      "type": "string",
+      "default": "Account"
+    },
+    "cartUrl": {
+      "type": "string",
+      "default": "/cart"
+    },
+    "accountUrl": {
+      "type": "string",
+      "default": "/my-account"
+    },
+    "searchUrl": {
+      "type": "string",
+      "default": "/?s="
+    }
+  },
+  "textdomain": "ai-zippy-child",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js",
+  "render": "file:./render.php"
+}

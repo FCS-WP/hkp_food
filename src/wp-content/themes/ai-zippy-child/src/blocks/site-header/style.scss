@@ -1,0 +1,180 @@
+// Site Header block – frontend styles
+$header-bg: #fff;
+$header-text: #2c2c2c;
+$brand-red: #c0392b;
+$header-border: #e8e8e8;
+$dropdown-bg: #fff;
+$dropdown-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+
+.site-header {
+	position: sticky;
+	top: 0;
+	z-index: 1000;
+	width: 100%;
+	background-color: $header-bg;
+	border-bottom: 1px solid $header-border;
+	box-sizing: border-box;
+
+	&__inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		max-width: 1400px;
+		margin: 0 auto;
+		padding: 0.75rem 2rem;
+		gap: 2rem;
+	}
+
+	// ── Logo ──────────────────────────────────────────
+	&__logo-wrap {
+		flex-shrink: 0;
+	}
+
+	&__logo-link {
+		display: inline-flex;
+		align-items: center;
+		text-decoration: none;
+	}
+
+	&__logo {
+		height: 70px;
+		width: auto;
+		display: block;
+	}
+
+	// ── Navigation ────────────────────────────────────
+	&__nav {
+		display: flex;
+		align-items: center;
+		gap: 2.5rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	&__nav-item {
+		position: relative;
+	}
+
+	&__nav-link {
+		font-family: var(--wp--preset--font-family--urbanist);
+		font-size: 1rem;
+		font-weight: 500;
+		color: $header-text;
+		text-decoration: none;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+		padding: 0.25rem 0;
+		white-space: nowrap;
+		transition: color 0.2s;
+
+		&.is-active {
+			color: $brand-red;
+			font-weight: 600;
+		}
+
+		&:hover {
+			color: $brand-red;
+		}
+	}
+
+	&__nav-arrow {
+		font-size: 0.6rem;
+		transition: transform 0.2s;
+		display: inline-block;
+	}
+
+	// ── Dropdown ──────────────────────────────────────
+	&__dropdown {
+		position: absolute;
+		top: calc( 100% + 0.5rem );
+		left: 50%;
+		transform: translateX( -50% );
+		background: $dropdown-bg;
+		border: 1px solid $header-border;
+		border-radius: 8px;
+		box-shadow: $dropdown-shadow;
+		list-style: none;
+		margin: 0;
+		padding: 0.5rem 0;
+		min-width: 180px;
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+		transition: opacity 0.2s, visibility 0.2s, transform 0.2s;
+		transform: translateX( -50% ) translateY( -4px );
+
+		&.is-open {
+			opacity: 1;
+			visibility: visible;
+			pointer-events: auto;
+			transform: translateX( -50% ) translateY( 0 );
+		}
+
+		li {
+			margin: 0;
+			padding: 0;
+		}
+	}
+
+	&__dropdown-link {
+		display: block;
+		padding: 0.6rem 1.25rem;
+		font-family: var(--wp--preset--font-family--urbanist);
+		font-size: 0.95rem;
+		color: $header-text;
+		text-decoration: none;
+		white-space: nowrap;
+		transition: background 0.15s, color 0.15s;
+
+		&:hover {
+			background-color: #fdf2f2;
+			color: $brand-red;
+		}
+	}
+
+	// Arrow rotation on open
+	&__nav-item.has-dropdown:hover &__nav-arrow,
+	&__nav-item.has-dropdown .site-header__dropdown.is-open ~ a &__nav-arrow {
+		transform: rotate( 180deg );
+	}
+
+	// ── Action icons ──────────────────────────────────
+	&__actions {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		flex-shrink: 0;
+	}
+
+	&__action-link {
+		display: inline-flex;
+		align-items: center;
+		line-height: 0;
+
+		&:hover {
+			opacity: 0.7;
+		}
+	}
+
+	&__action-icon {
+		width: 24px;
+		height: 24px;
+		object-fit: contain;
+	}
+
+	// ── Responsive ────────────────────────────────────
+	@media ( max-width: 768px ) {
+		&__inner {
+			padding: 0.75rem 1rem;
+			flex-wrap: wrap;
+			gap: 1rem;
+		}
+
+		&__nav {
+			gap: 1.25rem;
+			flex-wrap: wrap;
+		}
+	}
+}

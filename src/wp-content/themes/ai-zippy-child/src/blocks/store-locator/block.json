@@ -1,0 +1,30 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy-child/store-locator",
+	"version": "1.0.0",
+	"title": "Store Locator",
+	"category": "ai-zippy",
+	"icon": "location",
+	"description": "A store locator section with a heading and embedded store locator plugin via shortcode.",
+	"keywords": ["store", "locator", "map", "outlets", "location"],
+	"supports": {
+		"html": false,
+		"align": ["wide", "full"],
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"attributes": {
+		"heading": {
+			"type": "string",
+			"default": "Locate Your Nearest Outlet"
+		}
+	},
+	"textdomain": "ai-zippy-child",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}
