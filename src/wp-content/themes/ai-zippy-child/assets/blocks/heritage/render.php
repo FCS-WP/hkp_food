@@ -8,21 +8,22 @@
  * @var WP_Block $block      Block instance.
  */
 
-$image1_url    = esc_url($attributes['image1Url'] ?? '');
-$image1_alt    = esc_attr($attributes['image1Alt'] ?? '');
-$image2_url    = esc_url($attributes['image2Url'] ?? '');
-$image2_alt    = esc_attr($attributes['image2Alt'] ?? '');
-$heading       = esc_html($attributes['heading'] ?? '');
-$description   = esc_html($attributes['description'] ?? '');
+$image1_url          = esc_url( $attributes['image1Url'] ?? '' );
+$image1_alt          = esc_attr( $attributes['image1Alt'] ?? '' );
+$image2_url          = esc_url( $attributes['image2Url'] ?? '' );
+$image2_alt          = esc_attr( $attributes['image2Alt'] ?? '' );
+$background_image_url = esc_url( $attributes['backgroundImageUrl'] ?? '' );
+$heading             = esc_html( $attributes['heading'] ?? '' );
+$description         = esc_html( $attributes['description'] ?? '' );
 
-$wrapper_attributes = get_block_wrapper_attributes();
+$style = $background_image_url ? sprintf( '--heritage-bg-image: url(%s);', esc_url_raw( $background_image_url ) ) : '';
+$wrapper_attributes = get_block_wrapper_attributes( $style ? [ 'style' => $style ] : [] );
 ?>
 
 <div <?php echo $wrapper_attributes; ?>>
     <div class="heritage__container">
-        <!-- Left column - Images -->
         <div class="heritage__images">
-            <?php if ($image1_url) : ?>
+            <?php if ( $image1_url ) : ?>
                 <div class="heritage__image-wrapper heritage__image-wrapper--1">
                     <img
                         src="<?php echo $image1_url; ?>"
@@ -33,7 +34,7 @@ $wrapper_attributes = get_block_wrapper_attributes();
                 </div>
             <?php endif; ?>
 
-            <?php if ($image2_url) : ?>
+            <?php if ( $image2_url ) : ?>
                 <div class="heritage__image-wrapper heritage__image-wrapper--2">
                     <img
                         src="<?php echo $image2_url; ?>"
@@ -45,13 +46,12 @@ $wrapper_attributes = get_block_wrapper_attributes();
             <?php endif; ?>
         </div>
 
-        <!-- Right column - Content -->
         <div class="heritage__content">
-            <?php if ($heading) : ?>
+            <?php if ( $heading ) : ?>
                 <h2 class="heritage__heading"><?php echo $heading; ?></h2>
             <?php endif; ?>
 
-            <?php if ($description) : ?>
+            <?php if ( $description ) : ?>
                 <p class="heritage__description"><?php echo $description; ?></p>
             <?php endif; ?>
         </div>

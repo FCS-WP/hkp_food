@@ -30,9 +30,14 @@ $font-body: var(--wp--preset--font-family--urbanist, 'Urbanist', sans-serif);
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		justify-content: center;
 		text-align: center;
 		padding: 4rem 3rem;
 		gap: 1.5rem;
+		height: 100%;
+		background-repeat: no-repeat;
+		background-position: bottom left;
+		background-size: cover;
 	}
 
 	// Icon wrapper
@@ -52,7 +57,7 @@ $font-body: var(--wp--preset--font-family--urbanist, 'Urbanist', sans-serif);
 	.brand-story__heading {
 		font-family: $font-heading;
 		font-size: clamp(2rem, 4vw, 2.75rem);
-		font-weight: 700;
+		font-weight: 500;
 		line-height: 1.2;
 		color: $brand-red;
 		margin: 0;

@@ -45,6 +45,18 @@
 			"type": "string",
 			"default": ""
 		},
+		"backgroundImageId": {
+			"type": "number",
+			"default": 0
+		},
+		"backgroundImageUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"backgroundImageAlt": {
+			"type": "string",
+			"default": ""
+		},
 		"heading": {
 			"type": "string",
 			"default": "A Singapore Favourite Since 1992"

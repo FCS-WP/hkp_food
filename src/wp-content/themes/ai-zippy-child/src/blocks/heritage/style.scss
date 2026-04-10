@@ -9,9 +9,12 @@ $brand-text: #1a1a1a;
 $font-heading: var(--wp--preset--font-family--poppins, 'Poppins', sans-serif);
 $font-body: var(--wp--preset--font-family--urbanist, 'Urbanist', sans-serif);
 
+body {
+	overflow-x: hidden;
+}
+
 .wp-block-ai-zippy-child-heritage {
 	position: relative;
-	overflow: hidden;
 	background-color: $brand-bg;
 	padding: 4rem 2rem;
 
@@ -20,13 +23,17 @@ $font-body: var(--wp--preset--font-family--urbanist, 'Urbanist', sans-serif);
 		content: '';
 		position: absolute;
 		bottom: 0;
-		left: 0;
-		width: 300px;
-		height: 200px;
-		background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='10' y='60' font-size='40' fill='%23c8000d' opacity='0.05'%3E%E5%92%8C%3C/text%3E%3C/svg%3E") no-repeat bottom left;
-		background-size: contain;
+		left: 50%;
+		width: 100vw;
+		height: calc(100% + 159px);
+		transform: translateX(-50%);
+		background-image: var(--heritage-bg-image);
+		background-repeat: no-repeat;
+		background-position: bottom left;
+		background-size: cover;
 		pointer-events: none;
 		z-index: 0;
+		opacity: 1;
 	}
 
 	// Main container - two column layout
@@ -102,7 +109,7 @@ $font-body: var(--wp--preset--font-family--urbanist, 'Urbanist', sans-serif);
 	.heritage__heading {
 		font-family: $font-heading;
 		font-size: clamp(2rem, 4vw, 3rem);
-		font-weight: 700;
+		font-weight: 500;
 		line-height: 1.15;
 		color: $brand-red;
 		margin: 0;
@@ -137,6 +144,7 @@ $font-body: var(--wp--preset--font-family--urbanist, 'Urbanist', sans-serif);
 		.heritage__image-wrapper {
 			&--1 {
 				width: 50%;
+				margin-left: 5%;
 			}
 
 			&--2 {

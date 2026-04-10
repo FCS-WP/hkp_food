@@ -6,21 +6,17 @@ import {
 	MediaUploadCheck,
 	InspectorControls,
 } from "@wordpress/block-editor";
-import {
-	PanelBody,
-	Button,
-	TextControl,
-} from "@wordpress/components";
+import { PanelBody, Button, TextControl } from "@wordpress/components";
 import { useState } from "@wordpress/element";
 
 const StarRating = ({ rating, onChange, readonly = false }) => {
 	return (
-		<div className={`testimonials__rating${readonly ? '' : '-input'}`}>
+		<div className={`testimonials__rating${readonly ? "" : "-input"}`}>
 			{[1, 2, 3, 4, 5].map((star) => (
 				<button
 					key={star}
 					type="button"
-					className={star <= rating ? 'is-active' : ''}
+					className={star <= rating ? "is-active" : ""}
 					onClick={() => !readonly && onChange && onChange(star)}
 					disabled={readonly}
 					aria-label={`${star} stars`}
@@ -32,11 +28,83 @@ const StarRating = ({ rating, onChange, readonly = false }) => {
 	);
 };
 
+const ImagePicker = ({
+	imageId,
+	imageUrl,
+	imageAlt,
+	setAttributes,
+	label,
+	idKey,
+	urlKey,
+	altKey,
+}) => (
+	<MediaUploadCheck>
+		<MediaUpload
+			onSelect={(media) =>
+				setAttributes({
+					[idKey]: media.id,
+					[urlKey]: media.url,
+					[altKey]: media.alt || "",
+				})
+			}
+			allowedTypes={["image"]}
+			value={imageId}
+			render={({ open }) => (
+				<div>
+					{label && <p style={{ marginBottom: "8px", fontWeight: 600 }}>{label}</p>}
+					{imageUrl && (
+						<img
+							src={imageUrl}
+							alt={imageAlt}
+							style={{
+								maxWidth: "100%",
+								marginBottom: "8px",
+								borderRadius: "8px",
+							}}
+						/>
+					)}
+					<Button onClick={open} variant="secondary">
+						{imageUrl ? __("Replace Image", "ai-zippy-child") : __("Select Image", "ai-zippy-child")}
+					</Button>
+					{imageUrl && (
+						<Button
+							onClick={() =>
+								setAttributes({
+									[idKey]: 0,
+									[urlKey]: "",
+									[altKey]: "",
+								})
+							}
+							variant="link"
+							isDestructive
+							style={{ marginLeft: "8px" }}
+						>
+							{__("Remove", "ai-zippy-child")}
+						</Button>
+					)}
+				</div>
+			)}
+		/>
+	</MediaUploadCheck>
+);
+
 export default function Edit({ attributes, setAttributes }) {
-	const { heading, imageId, imageUrl, imageAlt, testimonials } = attributes;
+	const {
+		heading,
+		imageId,
+		imageUrl,
+		imageAlt,
+		contentBackgroundImageId,
+		contentBackgroundImageUrl,
+		contentBackgroundImageAlt,
+		testimonials,
+	} = attributes;
 	const [currentSlide, setCurrentSlide] = useState(0);
 
 	const blockProps = useBlockProps();
+	const contentStyle = contentBackgroundImageUrl
+		? { backgroundImage: `url(${contentBackgroundImageUrl})` }
+		: undefined;
 
 	const updateTestimonial = (index, field, value) => {
 		const newTestimonials = [...testimonials];
@@ -49,10 +117,7 @@ export default function Edit({ attributes, setAttributes }) {
 
 	const addTestimonial = () => {
 		setAttributes({
-			testimonials: [
-				...testimonials,
-				{ quote: "", rating: 5, author: "" },
-			],
+			testimonials: [...testimonials, { quote: "", rating: 5, author: "" }],
 		});
 		setCurrentSlide(testimonials.length);
 	};
@@ -68,65 +133,32 @@ export default function Edit({ attributes, setAttributes }) {
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody
-					title={__("Image", "ai-zippy-child")}
-					initialOpen={true}
-				>
-					<MediaUploadCheck>
-						<MediaUpload
-							onSelect={(media) =>
-								setAttributes({
-									imageId: media.id,
-									imageUrl: media.url,
-									imageAlt: media.alt || "",
-								})
-							}
-							allowedTypes={["image"]}
-							value={imageId}
-							render={({ open }) => (
-								<div>
-									{imageUrl && (
-										<img
-											src={imageUrl}
-											alt={imageAlt}
-											style={{
-												maxWidth: "100%",
-												marginBottom: "8px",
-												borderRadius: "8px",
-											}}
-										/>
-									)}
-									<Button onClick={open} variant="secondary">
-										{imageUrl
-											? __("Replace Image", "ai-zippy-child")
-											: __("Select Image", "ai-zippy-child")}
-									</Button>
-									{imageUrl && (
-										<Button
-											onClick={() =>
-												setAttributes({
-													imageId: 0,
-													imageUrl: "",
-													imageAlt: "",
-												})
-											}
-											variant="link"
-											isDestructive
-											style={{ marginLeft: "8px" }}
-										>
-											{__("Remove", "ai-zippy-child")}
-										</Button>
-									)}
-								</div>
-							)}
-						/>
-					</MediaUploadCheck>
+				<PanelBody title={__("Image", "ai-zippy-child")} initialOpen={true}>
+					<ImagePicker
+						imageId={imageId}
+						imageUrl={imageUrl}
+						imageAlt={imageAlt}
+						setAttributes={setAttributes}
+						idKey="imageId"
+						urlKey="imageUrl"
+						altKey="imageAlt"
+					/>
 				</PanelBody>
 
-				<PanelBody
-					title={__(`Testimonial ${currentSlide + 1} of ${testimonials.length}`, "ai-zippy-child")}
-					initialOpen={true}
-				>
+				<PanelBody title={__("Content Background", "ai-zippy-child")} initialOpen={false}>
+					<ImagePicker
+						imageId={contentBackgroundImageId}
+						imageUrl={contentBackgroundImageUrl}
+						imageAlt={contentBackgroundImageAlt}
+						setAttributes={setAttributes}
+						label={__("Content Background Image", "ai-zippy-child")}
+						idKey="contentBackgroundImageId"
+						urlKey="contentBackgroundImageUrl"
+						altKey="contentBackgroundImageAlt"
+					/>
+				</PanelBody>
+
+				<PanelBody title={__(`Testimonial ${currentSlide + 1} of ${testimonials.length}`, "ai-zippy-child")} initialOpen={true}>
 					<div className="testimonials__slide-editor">
 						<TextControl
 							label={__("Author Name", "ai-zippy-child")}
@@ -182,10 +214,7 @@ export default function Edit({ attributes, setAttributes }) {
 					</div>
 				</PanelBody>
 
-				<PanelBody
-					title={__("Add Testimonial", "ai-zippy-child")}
-					initialOpen={false}
-				>
+				<PanelBody title={__("Add Testimonial", "ai-zippy-child")} initialOpen={false}>
 					<Button onClick={addTestimonial} variant="primary">
 						{__("+ Add New Testimonial", "ai-zippy-child")}
 					</Button>
@@ -194,14 +223,9 @@ export default function Edit({ attributes, setAttributes }) {
 
 			<div {...blockProps}>
 				<div className="testimonials__container">
-					{/* Left column - Image */}
 					<div className="testimonials__image-col">
 						{imageUrl ? (
-							<img
-								src={imageUrl}
-								alt={imageAlt}
-								className="testimonials__image"
-							/>
+							<img src={imageUrl} alt={imageAlt} className="testimonials__image" />
 						) : (
 							<div className="testimonials__image-placeholder">
 								<span>{__("Select an image in the sidebar", "ai-zippy-child")}</span>
@@ -209,8 +233,7 @@ export default function Edit({ attributes, setAttributes }) {
 						)}
 					</div>
 
-					{/* Right column - Slider */}
-					<div className="testimonials__content-col">
+					<div className="testimonials__content-col" style={contentStyle}>
 						<RichText
 							tagName="h2"
 							className="testimonials__heading"
@@ -222,20 +245,12 @@ export default function Edit({ attributes, setAttributes }) {
 						<div className="testimonials__slider">
 							{testimonials.length > 0 && (
 								<div className="testimonials__slide">
-									<p className="testimonials__quote">
-										{testimonials[currentSlide]?.quote}
-									</p>
-									<StarRating
-										rating={testimonials[currentSlide]?.rating || 5}
-										readonly
-									/>
-									<p className="testimonials__author">
-										{testimonials[currentSlide]?.author}
-									</p>
+									<p className="testimonials__quote">{testimonials[currentSlide]?.quote}</p>
+									<StarRating rating={testimonials[currentSlide]?.rating || 5} readonly />
+									<p className="testimonials__author">{testimonials[currentSlide]?.author}</p>
 								</div>
 							)}
 
-							{/* Navigation */}
 							{testimonials.length > 1 && (
 								<div className="testimonials__nav">
 									<button

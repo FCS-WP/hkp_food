@@ -8,21 +8,24 @@
  * @var WP_Block $block      Block instance.
  */
 
-$icon_url     = esc_url($attributes['iconUrl'] ?? '');
-$icon_alt     = esc_attr($attributes['iconAlt'] ?? '');
-$heading      = esc_html($attributes['heading'] ?? '');
-$description  = esc_html($attributes['description'] ?? '');
-$image_url    = esc_url($attributes['imageUrl'] ?? '');
-$image_alt    = esc_attr($attributes['imageAlt'] ?? '');
+$icon_url                     = esc_url( $attributes['iconUrl'] ?? '' );
+$icon_alt                     = esc_attr( $attributes['iconAlt'] ?? '' );
+$heading                      = esc_html( $attributes['heading'] ?? '' );
+$description                  = esc_html( $attributes['description'] ?? '' );
+$image_url                    = esc_url( $attributes['imageUrl'] ?? '' );
+$image_alt                    = esc_attr( $attributes['imageAlt'] ?? '' );
+$content_background_image_url = esc_url( $attributes['contentBackgroundImageUrl'] ?? '' );
+$content_style                = $content_background_image_url
+    ? sprintf( 'background-image: url(%s);', esc_url_raw( $content_background_image_url ) )
+    : '';
 
 $wrapper_attributes = get_block_wrapper_attributes();
 ?>
 
 <div <?php echo $wrapper_attributes; ?>>
     <div class="brand-story__container">
-        <!-- Left column - Content -->
-        <div class="brand-story__content">
-            <?php if ($icon_url) : ?>
+        <div class="brand-story__content"<?php echo $content_style ? ' style="' . esc_attr( $content_style ) . '"' : ''; ?>>
+            <?php if ( $icon_url ) : ?>
                 <div class="brand-story__icon-wrapper">
                     <img
                         src="<?php echo $icon_url; ?>"
@@ -32,18 +35,17 @@ $wrapper_attributes = get_block_wrapper_attributes();
                 </div>
             <?php endif; ?>
 
-            <?php if ($heading) : ?>
+            <?php if ( $heading ) : ?>
                 <h2 class="brand-story__heading"><?php echo $heading; ?></h2>
             <?php endif; ?>
 
-            <?php if ($description) : ?>
+            <?php if ( $description ) : ?>
                 <p class="brand-story__description"><?php echo $description; ?></p>
             <?php endif; ?>
         </div>
 
-        <!-- Right column - Image -->
         <div class="brand-story__media">
-            <?php if ($image_url) : ?>
+            <?php if ( $image_url ) : ?>
                 <img
                     src="<?php echo $image_url; ?>"
                     alt="<?php echo $image_alt; ?>"

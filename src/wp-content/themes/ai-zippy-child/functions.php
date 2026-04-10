@@ -32,6 +32,7 @@ function ai_zippy_child_enqueue_fonts(): void
     );
 }
 add_action('wp_enqueue_scripts', 'ai_zippy_child_enqueue_fonts', 5);
+add_action('enqueue_block_editor_assets', 'ai_zippy_child_enqueue_fonts', 5);
 
 /**
  * Register custom blocks from child theme.

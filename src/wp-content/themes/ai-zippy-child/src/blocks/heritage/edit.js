@@ -6,10 +6,7 @@ import {
 	MediaUploadCheck,
 	InspectorControls,
 } from "@wordpress/block-editor";
-import {
-	PanelBody,
-	Button,
-} from "@wordpress/components";
+import { PanelBody, Button } from "@wordpress/components";
 
 const ImageControl = ({
 	index,
@@ -35,9 +32,7 @@ const ImageControl = ({
 				value={imageId}
 				render={({ open }) => (
 					<div style={{ marginBottom: "16px" }}>
-						<p style={{ marginBottom: "8px", fontWeight: 600 }}>
-							{label}
-						</p>
+						<p style={{ marginBottom: "8px", fontWeight: 600 }}>{label}</p>
 						{imageUrl && (
 							<img
 								src={imageUrl}
@@ -80,6 +75,71 @@ const ImageControl = ({
 	);
 };
 
+const SingleImageControl = ({
+	imageId,
+	imageUrl,
+	imageAlt,
+	setAttributes,
+	label,
+	idKey,
+	urlKey,
+	altKey,
+}) => (
+	<MediaUploadCheck>
+		<MediaUpload
+			onSelect={(media) =>
+				setAttributes({
+					[idKey]: media.id,
+					[urlKey]: media.url,
+					[altKey]: media.alt || "",
+				})
+			}
+			allowedTypes={["image"]}
+			value={imageId}
+			render={({ open }) => (
+				<div style={{ marginBottom: "16px" }}>
+					<p style={{ marginBottom: "8px", fontWeight: 600 }}>{label}</p>
+					{imageUrl && (
+						<img
+							src={imageUrl}
+							alt={imageAlt}
+							style={{
+								maxWidth: "100%",
+								marginBottom: "8px",
+								borderRadius: "8px",
+							}}
+						/>
+					)}
+					<div>
+						<Button onClick={open} variant="secondary" size="small">
+							{imageUrl
+								? __("Replace", "ai-zippy-child")
+								: __("Select Image", "ai-zippy-child")}
+						</Button>
+						{imageUrl && (
+							<Button
+								onClick={() =>
+									setAttributes({
+										[idKey]: 0,
+										[urlKey]: "",
+										[altKey]: "",
+									})
+								}
+								variant="link"
+								isDestructive
+								size="small"
+								style={{ marginLeft: "8px" }}
+							>
+								{__("Remove", "ai-zippy-child")}
+							</Button>
+						)}
+					</div>
+				</div>
+			)}
+		/>
+	</MediaUploadCheck>
+);
+
 export default function Edit({ attributes, setAttributes }) {
 	const {
 		image1Id,
@@ -88,19 +148,25 @@ export default function Edit({ attributes, setAttributes }) {
 		image2Id,
 		image2Url,
 		image2Alt,
+		backgroundImageId,
+		backgroundImageUrl,
+		backgroundImageAlt,
 		heading,
 		description,
 	} = attributes;
 
-	const blockProps = useBlockProps();
+	const blockProps = useBlockProps({
+		style: backgroundImageUrl
+			? {
+				"--heritage-bg-image": `url(${backgroundImageUrl})`,
+			}
+			: undefined,
+	});
 
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody
-					title={__("Images", "ai-zippy-child")}
-					initialOpen={true}
-				>
+				<PanelBody title={__("Images", "ai-zippy-child")} initialOpen={true}>
 					<ImageControl
 						index={1}
 						imageId={image1Id}
@@ -117,12 +183,21 @@ export default function Edit({ attributes, setAttributes }) {
 						setAttributes={setAttributes}
 						label={__("Image 2 (Right/Front)", "ai-zippy-child")}
 					/>
+					<SingleImageControl
+						imageId={backgroundImageId}
+						imageUrl={backgroundImageUrl}
+						imageAlt={backgroundImageAlt}
+						setAttributes={setAttributes}
+						label={__("Background Image", "ai-zippy-child")}
+						idKey="backgroundImageId"
+						urlKey="backgroundImageUrl"
+						altKey="backgroundImageAlt"
+					/>
 				</PanelBody>
 			</InspectorControls>
 
 			<div {...blockProps}>
 				<div className="heritage__container">
-					{/* Left column - Images */}
 					<div className="heritage__images">
 						<div className="heritage__image-wrapper heritage__image-wrapper--1">
 							{image1Url ? (
@@ -152,7 +227,6 @@ export default function Edit({ attributes, setAttributes }) {
 						</div>
 					</div>
 
-					{/* Right column - Content */}
 					<div className="heritage__content">
 						<RichText
 							tagName="h2"

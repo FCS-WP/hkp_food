@@ -11,6 +11,14 @@ $star-color: #ffc107;
 $font-heading: var(--wp--preset--font-family--poppins, 'Poppins', sans-serif);
 $font-body: var(--wp--preset--font-family--urbanist, 'Urbanist', sans-serif);
 
+.wp-block-group.wp-block-group-is-layout-constrained {
+	padding-bottom: 0 !important;
+}
+
+.wp-block-template-part {
+	margin-top: 0;
+}
+
 .wp-block-ai-zippy-child-testimonials {
 	position: relative;
 	overflow: hidden;
@@ -47,13 +55,16 @@ $font-body: var(--wp--preset--font-family--urbanist, 'Urbanist', sans-serif);
 		justify-content: center;
 		padding: 4rem 5rem;
 		position: relative;
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: cover;
 	}
 
 	// Heading - Poppins font
 	.testimonials__heading {
 		font-family: $font-heading;
 		font-size: clamp(1.75rem, 4vw, 2.5rem);
-		font-weight: 600;
+		font-weight: 500;
 		line-height: 1.2;
 		color: $brand-red;
 		margin: 0 0 2rem;

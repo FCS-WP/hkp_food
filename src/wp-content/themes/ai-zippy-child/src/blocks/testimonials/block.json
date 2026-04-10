@@ -37,6 +37,18 @@
 			"type": "string",
 			"default": ""
 		},
+		"contentBackgroundImageId": {
+			"type": "number",
+			"default": 0
+		},
+		"contentBackgroundImageUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"contentBackgroundImageAlt": {
+			"type": "string",
+			"default": ""
+		},
 		"testimonials": {
 			"type": "array",
 			"default": [
