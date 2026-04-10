@@ -22,6 +22,30 @@ $account_url      = ! empty( $attributes['accountUrl'] ) ? $attributes['accountU
 $cart_count       = function_exists( 'WC' ) && WC()->cart ? WC()->cart->get_cart_contents_count() : 0;
 $account_page_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'myaccount' ) : $account_url;
 $is_logged_in     = is_user_logged_in();
+$request_uri      = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( (string) $_SERVER['REQUEST_URI'] ) : '/';
+$current_url      = home_url( $request_uri );
+$normalize_url    = static function ( string $url ): string {
+	if ( '' === $url ) {
+		return '';
+	}
+
+	if ( str_starts_with( $url, '/' ) ) {
+		$url = home_url( $url );
+	}
+
+	$parts = wp_parse_url( $url );
+	if ( ! is_array( $parts ) ) {
+		return untrailingslashit( $url );
+	}
+
+	$path = isset( $parts['path'] ) ? untrailingslashit( $parts['path'] ) : '';
+	if ( '' === $path ) {
+		$path = '/';
+	}
+
+	return $path;
+};
+$current_path = $normalize_url( $current_url );
 ?>
 
 <header <?php echo get_block_wrapper_attributes( [ 'class' => 'site-header' ] ); ?> data-site-header>
@@ -53,7 +77,9 @@ $is_logged_in     = is_user_logged_in();
 
 		<nav class="site-header__nav" aria-label="<?php esc_attr_e( 'Main Navigation', 'ai-zippy-child' ); ?>">
 			<?php foreach ( $nav_links as $link ) :
-				$is_active    = ! empty( $link['isActive'] );
+				$link_url     = isset( $link['url'] ) ? (string) $link['url'] : '';
+				$normalized   = $normalize_url( $link_url );
+				$is_active    = $normalized && $normalized === $current_path;
 				$has_dropdown = ! empty( $link['hasDropdown'] ) && ! empty( $link['children'] );
 				$link_class   = 'site-header__nav-item' . ( $has_dropdown ? ' has-dropdown' : '' );
 			?>
@@ -153,7 +179,9 @@ $is_logged_in     = is_user_logged_in();
 				</div>
 				<nav class="site-header__mobile-nav" aria-label="<?php esc_attr_e( 'Mobile Navigation', 'ai-zippy-child' ); ?>">
 					<?php foreach ( $nav_links as $link ) :
-						$is_active    = ! empty( $link['isActive'] );
+						$link_url     = isset( $link['url'] ) ? (string) $link['url'] : '';
+						$normalized   = $normalize_url( $link_url );
+						$is_active    = $normalized && $normalized === $current_path;
 						$has_dropdown = ! empty( $link['hasDropdown'] ) && ! empty( $link['children'] );
 					?>
 						<div class="site-header__mobile-item<?php echo $has_dropdown ? ' has-children' : ''; ?>">
