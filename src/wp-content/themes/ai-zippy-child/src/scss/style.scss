@@ -1,0 +1,38 @@
+/*
+ * AI Zippy Child Theme — Global site-wide styles
+ *
+ * Add site-wide CSS/SCSS overrides here.
+ * This file is loaded after the parent theme styles.
+ */
+
+// Example:
+// body {
+// 	background: #fff;
+// }
+
+.wp-block-group {
+  margin-top: 0;
+}
+
+.shop-hero:before {
+  background-color: var(--wp--preset--color--primary);
+  background: linear-gradient(135deg, var(--wp--preset--color--primary), var(--wp--preset--color--secondary));
+}
+
+.sf__card-btn {
+  background-color: var(--wp--preset--color--primary);
+  
+  &:hover {
+    background-color: var(--wp--preset--color--secondary);
+  }
+}
+
+.sf--top .sf__filters--top,
+.sf__view-btn.is-active,
+.sf__layout-btn.is-active {
+  background-color: var(--wp--preset--color--background);
+}
+
+.sf__badge--sale {
+  background-color: var(--wp--preset--color--primary);
+}

@@ -28,6 +28,11 @@
 					"slug": "secondary",
 					"color": "#060606",
 					"name": "Secondary"
+				},
+				{
+					"slug": "background",
+					"color": "#F9F9F9",
+					"name": "Background"
 				}
 			]
 		}
