@@ -1,0 +1,162 @@
+$brand-red: var(--wp--preset--color--primary);
+$brand-text: var(--wp--preset--color--secondary);
+$surface: #fafafa;
+$surface-3: #ffffff;
+$border: rgba(6, 6, 6, 0.14);
+$shadow: 0 14px 40px rgba(0, 0, 0, 0.08);
+$font-heading: var(--wp--preset--font-family--poppins, 'Poppins', sans-serif);
+$font-body: var(--wp--preset--font-family--urbanist, 'Urbanist', sans-serif);
+
+.wp-block-ai-zippy-child-contact-us {
+	padding: 0 0 4.5rem;
+	color: $brand-text;
+
+	.contact-us__hero {
+		padding: 3.5rem 1.5rem 2.5rem;
+		border-bottom: 2px solid rgba(6, 6, 6, 0.28);
+		text-align: center;
+	}
+
+	.contact-us__title {
+		margin: 0;
+		font-family: $font-heading;
+		font-size: clamp(2.3rem, 5vw, 3.7rem);
+		font-weight: 500;
+		line-height: 1.08;
+		letter-spacing: -0.03em;
+	}
+
+	.contact-us__content-row {
+		display: grid;
+		grid-template-columns: minmax(280px, 320px) minmax(0, 1fr);
+		gap: 30px;
+		max-width: 1280px;
+		margin: 2rem auto 0;
+		padding: 0 1.5rem;
+		align-items: start;
+	}
+
+	.contact-us__card,
+	.contact-us__form-wrap {
+		background: $surface-3;
+		box-shadow: $shadow;
+	}
+
+	.contact-us__form-wrap p {
+		display: flex;
+		gap: 10px;
+	}
+
+	.contact-us__form-wrap p label {
+		width: 100%;
+	}
+
+	.contact-us__card {
+		padding: 2rem 1.75rem 1rem;
+		border: 1.5px solid $border;
+		border-radius: 8px;
+		font-family: $font-body;
+		font-size: 1rem;
+		line-height: 1.55;
+
+		p { margin: 0 0 2rem; }
+		strong { display: inline-block; margin-bottom: 0.15rem; font-weight: 600; }
+		a { color: inherit; text-decoration: none; }
+	}
+
+	.contact-us__socials {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+
+	.contact-us__socials a,
+	.contact-us__social-preview {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 42px;
+		height: 42px;
+	}
+
+	.contact-us__social-image,
+	.contact-us__social-preview img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		display: block;
+	}
+
+	.contact-us__form-wrap {
+		min-height: 360px;
+		padding: 1.5rem;
+		border: 1.5px solid $border;
+		border-radius: 8px;
+	}
+
+	.contact-us__form-wrap input:not([type='submit']):not([type='button']):not([type='reset']),
+	.contact-us__form-wrap textarea,
+	.contact-us__form-wrap select {
+		width: 100%;
+		padding: 0.95rem 1rem;
+		border: 1px solid rgba(6, 6, 6, 0.12);
+		border-radius: 8px;
+		background: $surface;
+		font-family: $font-body;
+		font-size: 1rem;
+	}
+
+	.contact-us__form-wrap textarea { min-height: 140px; resize: vertical; }
+
+	.contact-us__form-wrap input[type='submit'],
+	.contact-us__form-wrap button,
+	.contact-us__form-wrap .wpcf7-submit {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 50px;
+		padding: 0 1.75rem;
+		border: 0;
+		border-radius: 8px;
+		background: $brand-red;
+		color: #fff;
+		font-family: $font-body;
+		font-size: 1rem;
+		font-weight: 600;
+		cursor: pointer;
+		box-shadow: 0 12px 24px rgba(200, 0, 13, 0.18);
+	}
+
+	.contact-us__socials-editor { display: flex; flex-direction: column; gap: 0.5rem; }
+	.contact-us__social-item-editor { display: flex; align-items: center; gap: 0.5rem; }
+	.contact-us__social-item-editor .components-base-control { flex: 1; margin-bottom: 0; }
+	.contact-us__social-thumb {
+		width: 40px; height: 40px; border: 2px dashed rgba(0,0,0,0.3); border-radius: 4px;
+		display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; overflow: hidden; font-size: 0.7rem; color: #666;
+	}
+	.contact-us__social-thumb img { width: 100%; height: 100%; object-fit: contain; }
+
+	.iti-arrow {
+		display: none;
+	}
+
+	@media (max-width: 960px) {
+		.contact-us__content-row { grid-template-columns: 1fr; gap: 2rem; }
+		.contact-us__card { max-width: 420px; }
+	}
+
+	@media (max-width: 640px) {
+		padding-bottom: 3rem;
+		.contact-us__hero { padding: 2.6rem 1rem 2rem; }
+		.contact-us__content-row { padding: 0; }
+		.contact-us__form-wrap { padding: 1rem; }
+		.contact-us__card { padding: 1.5rem 1.25rem 1rem; }
+	}
+}
+
+@media (max-width: 640px) {
+	.store-locator {
+		padding: 0 !important;
+	}
+}
