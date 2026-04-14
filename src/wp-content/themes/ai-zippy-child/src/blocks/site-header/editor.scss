@@ -94,12 +94,7 @@
 	}
 
 	&__child-row {
-		display: flex;
-		align-items: flex-end;
-		gap: 0.5rem;
-
 		.components-base-control {
-			flex: 1;
 			margin-bottom: 0;
 		}
 	}
