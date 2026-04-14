@@ -9,7 +9,6 @@
 
 $logo_url         = ! empty( $attributes['logoUrl'] ) ? $attributes['logoUrl'] : '';
 $logo_alt         = ! empty( $attributes['logoAlt'] ) ? $attributes['logoAlt'] : 'Ho Kee Pau';
-$nav_links        = ! empty( $attributes['navLinks'] ) ? $attributes['navLinks'] : [];
 $search_icon_url  = ! empty( $attributes['searchIconUrl'] ) ? $attributes['searchIconUrl'] : '';
 $search_icon_alt  = ! empty( $attributes['searchIconAlt'] ) ? $attributes['searchIconAlt'] : 'Search';
 $cart_icon_url    = ! empty( $attributes['cartIconUrl'] ) ? $attributes['cartIconUrl'] : '';
@@ -24,7 +23,8 @@ $account_page_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_per
 $is_logged_in     = is_user_logged_in();
 $request_uri      = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( (string) $_SERVER['REQUEST_URI'] ) : '/';
 $current_url      = home_url( $request_uri );
-$normalize_url    = static function ( string $url ): string {
+
+$normalize_url = static function ( string $url ): string {
 	if ( '' === $url ) {
 		return '';
 	}
@@ -45,12 +45,43 @@ $normalize_url    = static function ( string $url ): string {
 
 	return $path;
 };
+
 $current_path = $normalize_url( $current_url );
+
+$navigation_markup = '';
+
+$navigation_posts = get_posts(
+	[
+		'post_type'        => 'wp_navigation',
+		'post_status'      => 'publish',
+		'numberposts'      => -1,
+		'orderby'          => 'date',
+		'order'            => 'ASC',
+		'suppress_filters' => false,
+	]
+);
+
+$selected_navigation = null;
+
+if ( ! empty( $navigation_posts ) ) {
+	foreach ( $navigation_posts as $navigation_post ) {
+		if ( 'Menu' === $navigation_post->post_title ) {
+			$selected_navigation = $navigation_post;
+			break;
+		}
+	}
+
+	if ( ! $selected_navigation ) {
+		$selected_navigation = $navigation_posts[0];
+	}
+}
+
+if ( $selected_navigation ) {
+	$navigation_markup = do_blocks( $selected_navigation->post_content );
+}
 ?>
 
 <header <?php echo get_block_wrapper_attributes( [ 'class' => 'site-header' ] ); ?> data-site-header data-cart-count-initial="<?php echo esc_attr( (string) $cart_count ); ?>">
-
-
 	<div class="site-header__inner">
 		<div class="site-header__logo-wrap">
 			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="site-header__logo-link">
@@ -78,35 +109,7 @@ $current_path = $normalize_url( $current_url );
 		</button>
 
 		<nav class="site-header__nav" aria-label="<?php esc_attr_e( 'Main Navigation', 'ai-zippy-child' ); ?>">
-			<?php foreach ( $nav_links as $link ) :
-				$link_url     = isset( $link['url'] ) ? (string) $link['url'] : '';
-				$normalized   = $normalize_url( $link_url );
-				$is_active    = $normalized && $normalized === $current_path;
-				$has_dropdown = ! empty( $link['hasDropdown'] ) && ! empty( $link['children'] );
-				$link_class   = 'site-header__nav-item' . ( $has_dropdown ? ' has-dropdown' : '' );
-			?>
-				<div class="<?php echo esc_attr( $link_class ); ?>">
-					<a
-						href="<?php echo esc_url( $link['url'] ?? '#' ); ?>"
-						class="site-header__nav-link<?php echo $is_active ? ' is-active' : ''; ?>"
-						<?php if ( $has_dropdown ) : ?>aria-haspopup="true" aria-expanded="false"<?php endif; ?>
-					><?php echo esc_html( $link['label'] ?? '' ); ?><?php if ( $has_dropdown ) : ?><span class="site-header__nav-arrow" aria-hidden="true">&#9660;</span><?php endif; ?></a>
-
-					<?php if ( $has_dropdown ) : ?>
-						<ul class="site-header__dropdown" role="menu">
-							<?php foreach ( $link['children'] as $child ) : ?>
-								<li role="none">
-									<a
-										href="<?php echo esc_url( $child['url'] ?? '#' ); ?>"
-										class="site-header__dropdown-link"
-										role="menuitem"
-									><?php echo esc_html( $child['label'] ?? '' ); ?></a>
-								</li>
-							<?php endforeach; ?>
-						</ul>
-					<?php endif; ?>
-				</div>
-			<?php endforeach; ?>
+			<?php echo $navigation_markup; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</nav>
 
 		<div class="site-header__actions">
@@ -164,6 +167,9 @@ $current_path = $normalize_url( $current_url );
 					<p class="site-header__account-footer">
 						<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php esc_html_e( 'Lost your password?', 'ai-zippy-child' ); ?></a>
 					</p>
+					<p class="site-header__account-footer">
+						<a href="<?php echo esc_url( $account_page_url ); ?>"><?php esc_html_e( 'Create an account', 'ai-zippy-child' ); ?></a>
+					</p>
 				<?php else : ?>
 					<p><a href="<?php echo esc_url( $account_url ); ?>"><?php esc_html_e( 'Go to My Account', 'ai-zippy-child' ); ?></a></p>
 				<?php endif; ?>
@@ -178,23 +184,7 @@ $current_path = $normalize_url( $current_url );
 					<button type="button" class="site-header__mobile-close" aria-label="<?php esc_attr_e( 'Close menu', 'ai-zippy-child' ); ?>" data-mobile-menu-close>&times;</button>
 				</div>
 				<nav class="site-header__mobile-nav" aria-label="<?php esc_attr_e( 'Mobile Navigation', 'ai-zippy-child' ); ?>">
-					<?php foreach ( $nav_links as $link ) :
-						$link_url     = isset( $link['url'] ) ? (string) $link['url'] : '';
-						$normalized   = $normalize_url( $link_url );
-						$is_active    = $normalized && $normalized === $current_path;
-						$has_dropdown = ! empty( $link['hasDropdown'] ) && ! empty( $link['children'] );
-					?>
-						<div class="site-header__mobile-item<?php echo $has_dropdown ? ' has-children' : ''; ?>">
-							<a href="<?php echo esc_url( $link['url'] ?? '#' ); ?>" class="site-header__mobile-link<?php echo $is_active ? ' is-active' : ''; ?>"><?php echo esc_html( $link['label'] ?? '' ); ?></a>
-							<?php if ( $has_dropdown ) : ?>
-								<div class="site-header__mobile-children">
-									<?php foreach ( $link['children'] as $child ) : ?>
-										<a href="<?php echo esc_url( $child['url'] ?? '#' ); ?>" class="site-header__mobile-child-link"><?php echo esc_html( $child['label'] ?? '' ); ?></a>
-									<?php endforeach; ?>
-								</div>
-							<?php endif; ?>
-						</div>
-					<?php endforeach; ?>
+					<?php echo $navigation_markup; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</nav>
 			</div>
 		</div>

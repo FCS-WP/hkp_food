@@ -6,7 +6,7 @@
   "title": "Site Header",
   "category": "ai-zippy",
   "icon": "menu",
-  "description": "Sticky header with logo, navigation (Shop has hover dropdown), and icon actions (search, cart, account as PNG images).",
+  "description": "Sticky header with logo, WordPress Navigation menu, and icon actions (search, cart, account as PNG images).",
   "keywords": [
     "header",
     "navigation",
@@ -36,52 +36,6 @@
     "logoAlt": {
       "type": "string",
       "default": "Ho Kee Pau"
-    },
-    "navLinks": {
-      "type": "array",
-      "default": [
-        {
-          "label": "Home",
-          "url": "/",
-          "isActive": true,
-          "hasDropdown": false,
-          "children": []
-        },
-        {
-          "label": "About Us",
-          "url": "/about",
-          "isActive": false,
-          "hasDropdown": false,
-          "children": []
-        },
-        {
-          "label": "Shop",
-          "url": "/shop",
-          "isActive": false,
-          "hasDropdown": true,
-          "children": [
-            {
-              "label": "All Products",
-              "url": "/shop"
-            },
-            {
-              "label": "Buns & Pau",
-              "url": "/shop/buns"
-            },
-            {
-              "label": "Dim Sum",
-              "url": "/shop/dim-sum"
-            }
-          ]
-        },
-        {
-          "label": "Contact Us",
-          "url": "/contact",
-          "isActive": false,
-          "hasDropdown": false,
-          "children": []
-        }
-      ]
     },
     "searchIconId": {
       "type": "number",

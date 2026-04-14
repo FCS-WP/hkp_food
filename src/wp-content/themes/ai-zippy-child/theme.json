@@ -33,6 +33,11 @@
 					"slug": "background",
 					"color": "#F9F9F9",
 					"name": "Background"
+				},
+				{
+					"slug": "border",
+					"color": "#F9F9F9",
+					"name": "Border"
 				}
 			]
 		}

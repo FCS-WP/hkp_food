@@ -93,6 +93,32 @@ footer.wp-block-template-part {
   margin: 0;
 }
 
+:root :where(.wp-element-button, .wp-block-button__link) {
+	border-radius: 8px;
+	font-family: var(--wp--preset--font-family--urbanist);
+	font-size: .95rem;
+	height: 44px;
+	min-width: 100px;
+	padding: 0 1rem;
+	border: 0;
+	background: var(--wp--preset--color--primary);
+	color: #fff;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.zk__btn--primary {
+	background-color: var(--wp--preset--color--primary);
+}
+
+.zk__phone-input .react-international-phone-country-selector-button {
+	background-color: var(--wp--preset--color--background);
+}
+
+.zk__error {
+	border: 1px solid var(--wp--preset--color--primary);
+}
+
 /* Single Product page */
 /* Single Product page — child theme site-wide styling */
 
@@ -922,6 +948,219 @@ body.search {
 
 		.wp-block-query-title {
 			font-size: 1.75rem;
+		}
+	}
+}
+
+/* My Account page */
+.woocommerce-account {
+	main.wp-block-group {
+		--account-primary: var(--wp--preset--color--primary);
+		--account-secondary: var(--wp--preset--color--secondary);
+		--account-surface: #fff;
+		--account-surface-alt: #faf7f4;
+		--account-border: rgba(6, 6, 6, 0.08);
+		--account-text: #1f1f1f;
+		--account-muted: #6b6b6b;
+		--account-radius: 8px;
+		--account-shadow: 0 14px 40px rgba(0, 0, 0, 0.06);
+
+		.woocommerce {
+			display: flex;
+			align-items: flex-start;
+			gap: 2rem;
+		}
+
+		.woocommerce-MyAccount-navigation {
+			flex: 0 0 280px;
+			max-width: 280px;
+			background: var(--account-surface);
+			border: 1px solid var(--account-border);
+			border-radius: var(--account-radius);
+			box-shadow: var(--account-shadow);
+			padding: 1rem;
+			position: sticky;
+			top: 110px;
+
+			ul {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+				display: flex;
+				flex-direction: column;
+				gap: 0.35rem;
+			}
+
+			li {
+				margin: 0;
+			}
+
+			a {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 0.9rem 1rem;
+				border-radius: var(--account-radius);
+				font-family: var(--wp--preset--font-family--urbanist);
+				font-size: 0.98rem;
+				font-weight: 700;
+				text-decoration: none;
+				color: var(--account-text);
+				transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+
+				&:hover {
+					background: var(--account-surface-alt);
+					color: var(--account-primary);
+					transform: translateX(4px);
+				}
+			}
+
+			.is-active a,
+			.woocommerce-MyAccount-navigation-link--customer-logout a:hover {
+				background: linear-gradient(135deg, var(--account-primary), var(--account-secondary));
+				color: #fff;
+			}
+		}
+
+		.woocommerce-MyAccount-content {
+			flex: 1 1 auto;
+			min-width: 0;
+			background: var(--account-surface);
+			border: 1px solid var(--account-border);
+			border-radius: var(--account-radius);
+			box-shadow: var(--account-shadow);
+			padding: clamp(1.25rem, 2vw, 2rem);
+			font-family: var(--wp--preset--font-family--urbanist);
+			color: var(--account-text);
+
+			p,
+			li,
+			label,
+			legend {
+				font-family: var(--wp--preset--font-family--urbanist);
+				color: var(--account-text);
+				line-height: 1.7;
+			}
+
+			a {
+				color: var(--account-primary);
+				font-weight: 700;
+				text-decoration: none;
+
+				&:hover {
+					color: var(--account-secondary);
+				}
+			}
+
+			h2,
+			h3 {
+				font-family: var(--wp--preset--font-family--poppins);
+				font-weight: 500;
+				color: var(--account-primary);
+				margin-top: 0;
+			}
+
+			.woocommerce-notices-wrapper {
+				margin-bottom: 1rem;
+			}
+
+			table.shop_table {
+				width: 100%;
+				border-collapse: separate;
+				border-spacing: 0;
+				border: 1px solid var(--account-border);
+				border-radius: var(--account-radius);
+				overflow: hidden;
+				background: #fff;
+
+				th,
+				td {
+					padding: 1rem;
+					border-bottom: 1px solid var(--account-border);
+					text-align: left;
+				}
+
+				th {
+					font-family: var(--wp--preset--font-family--poppins);
+					font-weight: 500;
+					color: var(--account-primary);
+					background: var(--account-surface-alt);
+				}
+
+				tr:last-child td {
+					border-bottom: 0;
+				}
+			}
+
+			input.input-text,
+			select,
+			textarea {
+				width: 100%;
+				min-height: 48px;
+				border-radius: 12px;
+				border: 1px solid var(--account-border);
+				padding: 0.85rem 1rem;
+				font-family: var(--wp--preset--font-family--urbanist);
+				font-size: 0.95rem;
+				background: #fff;
+			}
+
+			textarea {
+				min-height: 120px;
+			}
+
+			input:focus,
+			select:focus,
+			textarea:focus {
+				outline: none;
+				border-color: var(--account-primary);
+				box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.12);
+			}
+
+			button,
+			.button,
+			.woocommerce-Button,
+			.addresses .title .edit {
+				font-family: var(--wp--preset--font-family--urbanist);
+				font-size: .95rem;
+				height: 44px;
+				min-width: 100px;
+				padding: 0 1rem;
+				border: 0;
+				background: var(--wp--preset--color--primary);
+				color: #fff;
+				font-weight: 600;
+				cursor: pointer;
+				border-radius: var(--account-radius);
+				margin: 0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				float: none;
+
+				&:hover {
+					color: white;
+				}
+			}
+
+			.addresses .title .edit {
+				margin-bottom: 10px;
+			}
+
+			form .show-password-input::before,
+			form .show-password-input::before {
+				filter: invert(1);
+			}
+		}
+
+		@media (max-width: 900px) {
+			.woocommerce {
+				flex-direction: column;
+			}
+
+			.woocommerce-MyAccount-navigation {
+				position: static;
+			}
 		}
 	}
 }

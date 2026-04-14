@@ -69,3 +69,25 @@ function ai_zippy_child_enqueue_assets(): void
     }
 }
 add_action('wp_enqueue_scripts', 'ai_zippy_child_enqueue_assets', 20);
+
+
+/**
+ * Show only the registration form on My Account for logged-out users.
+ */
+function ai_zippy_child_hide_my_account_login_form(string $template, string $template_name, string $template_path): string
+{
+    if (
+        'myaccount/form-login.php' === $template_name
+        && !is_user_logged_in()
+        && 'yes' === get_option('woocommerce_enable_myaccount_registration')
+    ) {
+        $custom_template = get_stylesheet_directory() . '/woocommerce/myaccount/form-login.php';
+
+        if (file_exists($custom_template)) {
+            return $custom_template;
+        }
+    }
+
+    return $template;
+}
+add_filter('woocommerce_locate_template', 'ai_zippy_child_hide_my_account_login_form', 10, 3);
