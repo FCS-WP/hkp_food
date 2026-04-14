@@ -38,6 +38,11 @@
 					"slug": "border",
 					"color": "#F9F9F9",
 					"name": "Border"
+				},
+				{
+					"slug": "success",
+					"color": "#c8000d",
+					"name": "Success"
 				}
 			]
 		}
