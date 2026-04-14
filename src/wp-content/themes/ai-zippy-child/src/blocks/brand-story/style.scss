@@ -1,9 +1,9 @@
 // Brand Story — Frontend + Editor styles
 
 // Brand colors matching the mockup
-$brand-red: #c8000d;
-$brand-bg: #fafafa;
-$brand-text: #1a1a1a;
+$brand-red: var(--wp--preset--color--primary);
+$brand-bg: var(--wp--preset--color--background);
+$brand-text: var(--wp--preset--color--secondary);
 
 // Font families from theme.json
 $font-heading: var(--wp--preset--font-family--poppins, 'Poppins', sans-serif);

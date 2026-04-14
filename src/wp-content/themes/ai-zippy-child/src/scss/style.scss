@@ -41,6 +41,19 @@ body {
   background-color: var(--wp--preset--color--primary);
 }
 
+.sf__tag {
+	background-color: var(--wp--preset--color--primary);
+	color: white;
+}
+
+.sf__tag-remove {
+	color: white;
+
+	&:hover {
+		color: var(--wp--preset--color--secondary);
+	}
+}
+
 .woocommerce-checkout main .woocommerce {
 	padding-top: 3rem;
 	padding-right: 2rem;

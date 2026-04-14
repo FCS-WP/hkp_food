@@ -1,9 +1,9 @@
 // Product Showcase — Frontend + Editor styles
 
 // Brand colors
-$brand-red: #c8000d;
+$brand-red: var(--wp--preset--color--primary);
+$brand-text: var(--wp--preset--color--secondary);
 $brand-bg: #ffffff;
-$brand-text: #1a1a1a;
 $brand-text-muted: #666666;
 
 // Font families from theme.json
@@ -31,9 +31,8 @@ $font-body: var(--wp--preset--font-family--urbanist, 'Urbanist', sans-serif);
 	// Heading - Poppins font
 	.product-showcase__heading {
 		font-family: $font-heading;
-		font-size: clamp(1.75rem, 4vw, 2.25rem);
+		font-size: var(--wp--preset--font-size--x-large);
 		font-weight: 500;
-		line-height: 1.2;
 		color: $brand-red;
 		margin: 0 0 1rem;
 	}
@@ -41,9 +40,8 @@ $font-body: var(--wp--preset--font-family--urbanist, 'Urbanist', sans-serif);
 	// Description - Urbanist font
 	.product-showcase__description {
 		font-family: $font-body;
-		font-size: 1rem;
+		font-size: var(--wp--preset--font-size--medium);
 		font-weight: 400;
-		line-height: 1.6;
 		color: $brand-text-muted;
 		margin: 0 auto;
 		max-width: 600px;
@@ -96,9 +94,8 @@ $font-body: var(--wp--preset--font-family--urbanist, 'Urbanist', sans-serif);
 	// Product Title - Poppins font
 	.product-showcase__product-title {
 		font-family: $font-heading;
-		font-size: 1.1rem;
+		font-size: var(--wp--preset--font-size--custom-1);
 		font-weight: 600;
-		line-height: 1.3;
 		color: $brand-text;
 		margin: 0 0 0.75rem;
 	}
@@ -106,9 +103,8 @@ $font-body: var(--wp--preset--font-family--urbanist, 'Urbanist', sans-serif);
 	// Product Description - Urbanist font
 	.product-showcase__product-description {
 		font-family: $font-body;
-		font-size: 0.9rem;
+		font-size: var(--wp--preset--font-size--medium);
 		font-weight: 400;
-		line-height: 1.6;
 		color: $brand-text-muted;
 		margin: 0;
 	}
@@ -121,7 +117,7 @@ $font-body: var(--wp--preset--font-family--urbanist, 'Urbanist', sans-serif);
 	.product-showcase__button {
 		display: inline-block;
 		font-family: $font-heading;
-		font-size: 1rem;
+		font-size: var(--wp--preset--font-size--medium);
 		font-weight: 500;
 		padding: 1rem 2.5rem;
 		background-color: $brand-red;
@@ -155,10 +151,6 @@ $font-body: var(--wp--preset--font-family--urbanist, 'Urbanist', sans-serif);
 		.product-showcase__product-image-wrapper {
 			width: 150px;
 			height: 150px;
-		}
-
-		.product-showcase__heading {
-			font-size: 1.5rem;
 		}
 
 		.product-showcase__button {

@@ -1,9 +1,9 @@
 // Heritage — Frontend + Editor styles
 
 // Brand colors
-$brand-red: #c8000d;
-$brand-bg: #fafafa;
-$brand-text: #1a1a1a;
+$brand-red: var(--wp--preset--color--primary);
+$brand-bg: var(--wp--preset--color--background);
+$brand-text: var(--wp--preset--color--secondary);
 
 // Font families from theme.json
 $font-heading: var(--wp--preset--font-family--poppins, 'Poppins', sans-serif);
@@ -108,9 +108,8 @@ body {
 	// Heading - Poppins font
 	.heritage__heading {
 		font-family: $font-heading;
-		font-size: clamp(2rem, 4vw, 3rem);
+		font-size: var(--wp--preset--font-size--x-large);
 		font-weight: 500;
-		line-height: 1.15;
 		color: $brand-red;
 		margin: 0;
 		max-width: 450px;
@@ -119,9 +118,8 @@ body {
 	// Description - Urbanist font
 	.heritage__description {
 		font-family: $font-body;
-		font-size: 1.125rem;
+		font-size: var(--wp--preset--font-size--medium);
 		font-weight: 400;
-		line-height: 1.7;
 		color: $brand-text;
 		margin: 0;
 		max-width: 420px;
@@ -177,14 +175,6 @@ body {
 				width: 55%;
 				margin-left: 35%;
 			}
-		}
-
-		.heritage__heading {
-			font-size: 1.75rem;
-		}
-
-		.heritage__description {
-			font-size: 1rem;
 		}
 	}
 }

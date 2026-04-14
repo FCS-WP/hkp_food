@@ -1,6 +1,6 @@
 // Store Locator block – frontend styles
-$brand-red: #c0392b;
-$brand-text: #2c2c2c;
+$brand-red: var(--wp--preset--color--primary);
+$brand-text: var(--wp--preset--color--secondary);
 $section-bg: #fff;
 
 .store-locator {
@@ -12,12 +12,11 @@ $section-bg: #fff;
 	// Section heading
 	&__heading {
 		font-family: var(--wp--preset--font-family--poppins);
-		font-size: clamp(1.75rem, 3vw, 2.5rem);
+		font-size: var(--wp--preset--font-size--x-large);
 		font-weight: 500;
 		color: $brand-red;
 		text-align: center;
 		margin: 0 0 2.5rem;
-		line-height: 1.2;
 	}
 
 	// Map / plugin wrapper
