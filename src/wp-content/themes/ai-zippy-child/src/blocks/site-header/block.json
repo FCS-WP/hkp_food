@@ -80,10 +80,6 @@
 		"accountUrl": {
 			"type": "string",
 			"default": "/my-account"
-		},
-		"searchUrl": {
-			"type": "string",
-			"default": "/?s="
 		}
 	},
 	"textdomain": "ai-zippy-child",

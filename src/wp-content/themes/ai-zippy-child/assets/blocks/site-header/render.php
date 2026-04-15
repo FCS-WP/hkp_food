@@ -12,42 +12,13 @@ $logo_alt         = ! empty( $attributes['logoAlt'] ) ? $attributes['logoAlt'] :
 $search_icon_url  = ! empty( $attributes['searchIconUrl'] ) ? $attributes['searchIconUrl'] : '';
 $search_icon_alt  = ! empty( $attributes['searchIconAlt'] ) ? $attributes['searchIconAlt'] : 'Search';
 $cart_icon_url    = ! empty( $attributes['cartIconUrl'] ) ? $attributes['cartIconUrl'] : '';
-$cart_icon_alt    = ! empty( $attributes['cartIconAlt'] ) ? $attributes['cartIconAlt'] : 'Cart';
 $account_icon_url = ! empty( $attributes['accountIconUrl'] ) ? $attributes['accountIconUrl'] : '';
 $account_icon_alt = ! empty( $attributes['accountIconAlt'] ) ? $attributes['accountIconAlt'] : 'Account';
-$search_url       = ! empty( $attributes['searchUrl'] ) ? $attributes['searchUrl'] : '/?s=';
 $cart_url         = ! empty( $attributes['cartUrl'] ) ? $attributes['cartUrl'] : '/cart';
 $account_url      = ! empty( $attributes['accountUrl'] ) ? $attributes['accountUrl'] : '/my-account';
 $cart_count       = function_exists( 'WC' ) && WC()->cart ? WC()->cart->get_cart_contents_count() : 0;
 $account_page_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'myaccount' ) : $account_url;
 $is_logged_in     = is_user_logged_in();
-$request_uri      = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( (string) $_SERVER['REQUEST_URI'] ) : '/';
-$current_url      = home_url( $request_uri );
-
-$normalize_url = static function ( string $url ): string {
-	if ( '' === $url ) {
-		return '';
-	}
-
-	if ( str_starts_with( $url, '/' ) ) {
-		$url = home_url( $url );
-	}
-
-	$parts = wp_parse_url( $url );
-	if ( ! is_array( $parts ) ) {
-		return untrailingslashit( $url );
-	}
-
-	$path = isset( $parts['path'] ) ? untrailingslashit( $parts['path'] ) : '';
-	if ( '' === $path ) {
-		$path = '/';
-	}
-
-	return $path;
-};
-
-$current_path = $normalize_url( $current_url );
-
 $navigation_markup = '';
 
 $navigation_posts = get_posts(

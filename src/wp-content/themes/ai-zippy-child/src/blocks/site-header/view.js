@@ -1,7 +1,7 @@
 /**
  * Site Header – frontend view script
- * Handles desktop dropdowns, search toggle,
- * account modal, mobile navigation popup, and cart badge syncing.
+ * Handles cart badge syncing, search toggle, account modal,
+ * desktop navigation enhancements, and the mobile menu.
  */
 document.addEventListener( 'DOMContentLoaded', () => {
 	const headers = document.querySelectorAll( '[data-site-header]' );

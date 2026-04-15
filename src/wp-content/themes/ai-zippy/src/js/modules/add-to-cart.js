@@ -45,8 +45,8 @@ async function handleClick(e) {
 		btn.classList.add("is-added");
 		btn.innerHTML = checkSvg() + " Added!";
 
-		// Update mini cart
-		updateMiniCart(cart);
+		// Notify Woo mini-cart and the child header mirror badge.
+		dispatchCartSyncEvents(cart);
 
 		// Show toast
 		showToast("Product added to cart", "success");
@@ -64,10 +64,7 @@ async function handleClick(e) {
 }
 
 /**
- * Update the WooCommerce mini cart after adding an item.
- *
- * Dispatches a custom event that WC's mini cart block listens to,
- * and manually updates the badge count as a fast visual fallback.
+ * Fetch the latest cart state and push it into the Woo cart store when available.
  */
 async function refreshCartState() {
 	const cart = await getCart();
@@ -84,11 +81,11 @@ async function refreshCartState() {
 	return cart;
 }
 
-function updateMiniCart(cart) {
+function dispatchCartSyncEvents(cart) {
 	const count = cart.items_count;
 
 	// Let Woo mini-cart manage its own DOM/UI state.
-	// We only emit events and a custom count event for the child header mirror badge.
+	// We only emit refresh events plus a dedicated count event for the child header mirror badge.
 	document.body.dispatchEvent(
 		new CustomEvent("wc-blocks_added_to_cart", {
 			bubbles: true,

@@ -51,7 +51,6 @@ export default function Edit( { attributes, setAttributes } ) {
 		accountIconAlt,
 		cartUrl,
 		accountUrl,
-		searchUrl,
 	} = attributes;
 
 	const blockProps = useBlockProps( { className: 'site-header site-header--editor-preview' } );
@@ -144,11 +143,6 @@ export default function Edit( { attributes, setAttributes } ) {
 							}
 						/>
 					</div>
-					<TextControl
-						label={ __( 'Search URL', 'ai-zippy-child' ) }
-						value={ searchUrl }
-						onChange={ ( val ) => setAttributes( { searchUrl: val } ) }
-					/>
 					<TextControl
 						label={ __( 'Cart URL', 'ai-zippy-child' ) }
 						value={ cartUrl }
