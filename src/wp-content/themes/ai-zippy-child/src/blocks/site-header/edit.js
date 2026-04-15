@@ -193,14 +193,18 @@ export default function Edit( { attributes, setAttributes } ) {
 							</button>
 						) }
 
-						{ cartIconUrl && (
+						<div className="site-header__mini-cart-wrap site-header__mini-cart-wrap--editor">
 							<div className="site-header__action-link site-header__action-link--cart" aria-label={ cartIconAlt }>
-								<img src={ cartIconUrl } alt={ cartIconAlt } className="site-header__action-icon" />
+								{ cartIconUrl ? (
+									<img src={ cartIconUrl } alt={ cartIconAlt } className="site-header__action-icon" />
+								) : (
+									<span className="site-header__action-icon site-header__action-icon--placeholder">🛒</span>
+								) }
 								<span className="site-header__cart-badge" data-cart-count>
 									2
 								</span>
 							</div>
-						) }
+						</div>
 
 						{ accountIconUrl && (
 							<button type="button" className="site-header__action-link site-header__account-toggle" aria-label={ accountIconAlt }>

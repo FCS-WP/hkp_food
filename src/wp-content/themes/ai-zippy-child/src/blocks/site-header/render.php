@@ -119,17 +119,16 @@ if ( $selected_navigation ) {
 				</button>
 			<?php endif; ?>
 
-			<?php if ( $cart_icon_url ) : ?>
-				<a href="<?php echo esc_url( function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : $cart_url ); ?>" class="site-header__action-link site-header__action-link--cart" aria-label="<?php echo esc_attr( $cart_icon_alt ); ?>" data-cart-trigger>
+			<?php if ( class_exists( 'WooCommerce' ) && function_exists( 'do_blocks' ) && ! is_cart() && ! is_checkout() ) : ?>
+				<div class="site-header__mini-cart-wrap" data-mini-cart-wrap<?php echo $cart_icon_url ? ' style="--site-header-cart-icon: url(' . esc_url( $cart_icon_url ) . ');"' : ''; ?>>
+					<?php echo do_blocks( '<!-- wp:woocommerce/mini-cart /-->' ); ?>
+					<span class="site-header__cart-badge site-header__cart-badge--mirror" data-cart-count<?php echo $cart_count > 0 ? '' : ' hidden'; ?>><?php echo esc_html( (string) $cart_count ); ?></span>
+				</div>
+			<?php elseif ( $cart_icon_url ) : ?>
+				<a href="<?php echo esc_url( function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : $cart_url ); ?>" class="site-header__action-link site-header__action-link--cart" aria-label="<?php echo esc_attr( $cart_icon_alt ); ?>">
 					<img src="<?php echo esc_url( $cart_icon_url ); ?>" alt="<?php echo esc_attr( $cart_icon_alt ); ?>" class="site-header__action-icon" />
 					<span class="site-header__cart-badge" data-cart-count<?php echo $cart_count > 0 ? '' : ' hidden'; ?>><?php echo esc_html( (string) $cart_count ); ?></span>
 				</a>
-			<?php endif; ?>
-
-			<?php if ( function_exists( 'do_blocks' ) && class_exists( 'WooCommerce' ) && ! is_cart() && ! is_checkout() ) : ?>
-				<div class="site-header__mini-cart-proxy" aria-hidden="true">
-					<?php echo do_blocks( '<!-- wp:woocommerce/mini-cart /-->' ); ?>
-				</div>
 			<?php endif; ?>
 
 			<?php if ( $account_icon_url ) : ?>

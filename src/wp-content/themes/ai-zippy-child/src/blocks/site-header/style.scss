@@ -290,6 +290,11 @@ $dropdown-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 		width: 24px;
 		height: 24px;
 		object-fit: contain;
+
+		&--placeholder {
+			font-size: 24px;
+			line-height: 1;
+		}
 	}
 
 	&__cart-badge {
@@ -311,13 +316,72 @@ $dropdown-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 		line-height: 1;
 	}
 
-	&__mini-cart-proxy {
-		position: absolute;
-		width: 0;
-		height: 0;
-		overflow: hidden;
-		pointer-events: none;
-		opacity: 0;
+	&__mini-cart-wrap {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		line-height: 0;
+
+		&--editor {
+			pointer-events: none;
+		}
+
+		.wc-block-mini-cart {
+			display: inline-flex;
+			align-items: center;
+		}
+
+		.wc-block-mini-cart__button {
+			background: transparent;
+			border: 0;
+			padding: 0;
+			margin: 0;
+			min-width: 24px;
+			min-height: 24px;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			position: relative;
+			line-height: 0;
+			box-shadow: none;
+		}
+
+		.wc-block-mini-cart__button:hover {
+			opacity: 0.7;
+		}
+
+		.wc-block-mini-cart__icon,
+		.wc-block-mini-cart__amount {
+			display: none;
+		}
+
+		.wc-block-mini-cart__badge {
+			position: absolute;
+			top: -0.45rem;
+			right: -0.55rem;
+			min-width: 1.1rem;
+			height: 1.1rem;
+			padding: 0 0.2rem;
+			border-radius: 999px;
+			background: $brand-red !important;
+			color: #fff !important;
+			left: auto !important;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			font-family: var(--wp--preset--font-family--urbanist);
+			font-size: 0.65rem;
+			font-weight: 700;
+			line-height: 1;
+		}
+
+		.wc-block-mini-cart__button::before {
+			content: '';
+			width: 24px;
+			height: 24px;
+			display: block;
+			background: var(--site-header-cart-icon, none) center / contain no-repeat;
+		}
 	}
 
 	&__search-panel {
@@ -627,5 +691,39 @@ $dropdown-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 		font-size: 0.95rem;
 		font-weight: 500;
 		padding: 0.1rem 0;
+	}
+}
+
+
+.site-header__mini-cart-wrap {
+	.site-header__cart-badge--mirror {
+		position: absolute !important;
+		top: -0.45rem !important;
+		right: -0.55rem !important;
+		min-width: 1.1rem !important;
+		height: 1.1rem !important;
+		padding: 0 0.2rem !important;
+		border-radius: 999px !important;
+		background: #c0392b !important;
+		color: #fff !important;
+		display: inline-flex !important;
+		align-items: center !important;
+		justify-content: center !important;
+		font-family: var(--wp--preset--font-family--urbanist) !important;
+		font-size: 0.65rem !important;
+		font-weight: 700 !important;
+		line-height: 1 !important;
+		z-index: 30 !important;
+		pointer-events: none !important;
+		visibility: visible !important;
+		opacity: 1 !important;
+	}
+
+	.wc-block-mini-cart__quantity-badge {
+		position: relative !important;
+	}
+
+	.wc-block-mini-cart__badge {
+		display: none !important;
 	}
 }

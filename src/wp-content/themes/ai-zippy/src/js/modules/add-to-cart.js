@@ -7,7 +7,7 @@
  * - Any link with data-product-id or ?add-to-cart= URL
  */
 
-import { addToCart } from "./cart-api.js";
+import { addToCart, getCart } from "./cart-api.js";
 
 export function initAddToCart() {
 	document.addEventListener("click", handleClick);
@@ -37,7 +37,8 @@ async function handleClick(e) {
 	btn.innerHTML = spinnerSvg() + " Adding...";
 
 	try {
-		const cart = await addToCart(Number(productId));
+		await addToCart(Number(productId));
+		const cart = await refreshCartState();
 
 		// Success state
 		btn.classList.remove("is-loading");
@@ -68,48 +69,44 @@ async function handleClick(e) {
  * Dispatches a custom event that WC's mini cart block listens to,
  * and manually updates the badge count as a fast visual fallback.
  */
-function updateMiniCart(cart) {
-	const count = cart.items_count;
-	const totalPrice = cart.totals?.total_price;
-	const currencySymbol = cart.totals?.currency_symbol || "$";
+async function refreshCartState() {
+	const cart = await getCart();
 
-	// 1. Update badge count immediately
-	document.querySelectorAll(".wc-block-mini-cart__badge").forEach((badge) => {
-		badge.textContent = count;
-		badge.hidden = false;
-		badge.setAttribute("aria-hidden", "false");
-	});
-
-	// 2. Update amount display
-	if (totalPrice) {
-		const amount = (parseInt(totalPrice, 10) / 100).toFixed(2);
-		document.querySelectorAll(".wc-block-mini-cart__amount").forEach((el) => {
-			el.textContent = `${currencySymbol}${amount}`;
-		});
-	}
-
-	// 3. Update the button's aria-label
-	document.querySelectorAll(".wc-block-mini-cart__button").forEach((btn) => {
-		btn.setAttribute("aria-label", `${count} items in cart`);
-	});
-
-	// 4. Trigger WC Store API invalidation (if wp.data available)
 	if (typeof wp !== "undefined" && wp.data) {
 		try {
 			const store = wp.data.dispatch("wc/store/cart");
-			if (store?.invalidateResolutionForStoreCart) {
-				store.invalidateResolutionForStoreCart();
+			if (store?.receiveCart) {
+				store.receiveCart(cart);
 			}
 		} catch { /* wp.data not ready */ }
 	}
 
-	// 5. Dispatch WC blocks event for full refresh
-	document.body.dispatchEvent(new Event("wc-blocks_added_to_cart"));
+	return cart;
+}
 
-	// 6. Dispatch jQuery event (some WC themes/plugins listen for this)
+function updateMiniCart(cart) {
+	const count = cart.items_count;
+
+	// Let Woo mini-cart manage its own DOM/UI state.
+	// We only emit events and a custom count event for the child header mirror badge.
+	document.body.dispatchEvent(
+		new CustomEvent("wc-blocks_added_to_cart", {
+			bubbles: true,
+			cancelable: true,
+			detail: { preserveCartData: true },
+		}),
+	);
+
 	if (typeof jQuery !== "undefined") {
-		jQuery(document.body).trigger("added_to_cart");
+		jQuery(document.body).trigger("added_to_cart", [ [], [], null ]);
 	}
+
+	document.body.dispatchEvent(
+		new CustomEvent("ai-zippy-cart-count-updated", {
+			bubbles: true,
+			detail: { count },
+		}),
+	);
 }
 
 /**

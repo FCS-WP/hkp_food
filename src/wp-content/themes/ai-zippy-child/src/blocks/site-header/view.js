@@ -1,7 +1,7 @@
 /**
  * Site Header – frontend view script
- * Handles desktop dropdowns, mini-cart proxy, search toggle,
- * account modal, and mobile navigation popup.
+ * Handles desktop dropdowns, search toggle,
+ * account modal, mobile navigation popup, and cart badge syncing.
  */
 document.addEventListener( 'DOMContentLoaded', () => {
 	const headers = document.querySelectorAll( '[data-site-header]' );
@@ -12,20 +12,12 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		body.classList.contains( 'wp-block-cart' ) ||
 		body.classList.contains( 'wp-block-checkout' );
 
-	const getProxyBadgeCount = () => {
-		const wcBadge = document.querySelector( '.site-header__mini-cart-proxy .wc-block-mini-cart__badge' );
+	const getMiniCartDomCount = () => {
+		const wcBadge = document.querySelector( '.site-header__mini-cart-wrap .wc-block-mini-cart__badge' );
 		return parseInt( wcBadge?.textContent || '0', 10 ) || 0;
 	};
 
 	const getCartPageCount = () => {
-		const headerInitial = headers[ 0 ]?.getAttribute( 'data-cart-count-initial' );
-		if ( headerInitial !== null && headerInitial !== undefined ) {
-			const parsedInitial = parseInt( headerInitial, 10 );
-			if ( ! Number.isNaN( parsedInitial ) ) {
-				return parsedInitial;
-			}
-		}
-
 		const cartCountSource = document.querySelector( '[data-wc-cart-count]' );
 		if ( cartCountSource ) {
 			return parseInt( cartCountSource.getAttribute( 'data-wc-cart-count' ) || '0', 10 ) || 0;
@@ -36,7 +28,9 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		);
 
 		if ( ! quantityInputs.length ) {
-			return 0;
+			const headerInitial = headers[ 0 ]?.getAttribute( 'data-cart-count-initial' );
+			const parsedInitial = parseInt( headerInitial || '0', 10 );
+			return Number.isNaN( parsedInitial ) ? 0 : parsedInitial;
 		}
 
 		return Array.from( quantityInputs ).reduce( ( total, input ) => {
@@ -45,9 +39,9 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		}, 0 );
 	};
 
-	const syncCartBadge = () => {
-		const count = isCartOrCheckout ? getCartPageCount() : getProxyBadgeCount();
+	let currentCount = isCartOrCheckout ? getCartPageCount() : getMiniCartDomCount();
 
+	const renderCartBadge = ( count ) => {
 		headers.forEach( ( header ) => {
 			header.querySelectorAll( '[data-cart-count]' ).forEach( ( badge ) => {
 				badge.textContent = String( count );
@@ -56,25 +50,72 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		} );
 	};
 
-	headers.forEach( ( header ) => {
-		const cartLink = header.querySelector( '[data-cart-trigger]' );
-		if ( cartLink ) {
-			cartLink.addEventListener( 'click', ( e ) => {
-				if ( isCartOrCheckout ) {
-					return;
-				}
-
-				const wcBtn =
-					header.querySelector( '.site-header__mini-cart-proxy .wc-block-mini-cart__button' ) ||
-					document.querySelector( '.wc-block-mini-cart__button' );
-
-				if ( wcBtn ) {
-					e.preventDefault();
-					wcBtn.click();
-				}
-			} );
+	const setCurrentCount = ( count ) => {
+		const parsedCount = parseInt( count, 10 );
+		if ( Number.isNaN( parsedCount ) ) {
+			return;
 		}
 
+		currentCount = parsedCount;
+		renderCartBadge( currentCount );
+	};
+
+	const syncCartBadge = () => {
+		const nextCount = isCartOrCheckout ? getCartPageCount() : getMiniCartDomCount();
+		setCurrentCount( nextCount );
+	};
+
+	const scheduleCartBadgeSync = () => {
+		window.setTimeout( syncCartBadge, 0 );
+		window.setTimeout( syncCartBadge, 150 );
+		window.setTimeout( syncCartBadge, 400 );
+		window.setTimeout( syncCartBadge, 800 );
+	};
+
+	const observeMiniCartBadge = () => {
+		if ( isCartOrCheckout || typeof MutationObserver === 'undefined' ) {
+			return;
+		}
+
+		const observeTarget = () => {
+			const badge = document.querySelector( '.site-header__mini-cart-wrap .wc-block-mini-cart__badge' );
+			if ( ! badge || badge.dataset.aiZippyObserved === 'true' ) {
+				return Boolean( badge );
+			}
+
+			badge.dataset.aiZippyObserved = 'true';
+			const observer = new MutationObserver( () => {
+				const domCount = getMiniCartDomCount();
+				setCurrentCount( domCount );
+			} );
+			observer.observe( badge, {
+				childList: true,
+				characterData: true,
+				subtree: true,
+				attributes: true,
+				attributeFilter: [ 'hidden' ],
+			} );
+			return true;
+		};
+
+		if ( observeTarget() ) {
+			return;
+		}
+
+		const wrap = document.querySelector( '.site-header__mini-cart-wrap' );
+		if ( ! wrap ) {
+			return;
+		}
+
+		const wrapObserver = new MutationObserver( () => {
+			if ( observeTarget() ) {
+				wrapObserver.disconnect();
+			}
+		} );
+		wrapObserver.observe( wrap, { childList: true, subtree: true } );
+	};
+
+	headers.forEach( ( header ) => {
 		const searchToggle = header.querySelector( '[data-search-toggle]' );
 		const searchPanel = header.querySelector( '[data-search-panel]' );
 		const searchInput = header.querySelector( '.site-header__search-input' );
@@ -208,13 +249,23 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		} );
 	} );
 
-	syncCartBadge();
-	document.body.addEventListener( 'wc-blocks_added_to_cart', syncCartBadge );
-	document.body.addEventListener( 'wc_fragments_refreshed', syncCartBadge );
+	observeMiniCartBadge();
+	renderCartBadge( currentCount );
+	document.body.addEventListener( 'wc-blocks_added_to_cart', scheduleCartBadgeSync );
+	document.body.addEventListener( 'wc-blocks_removed_from_cart', scheduleCartBadgeSync );
+	document.body.addEventListener( 'wc_fragments_refreshed', scheduleCartBadgeSync );
 	document.body.addEventListener( 'change', ( event ) => {
 		if ( event.target.matches( '.wc-block-components-quantity-selector__input, .wc-block-components-quantity-selector input, .shop_table.cart input.qty, .woocommerce-cart-form input.qty' ) ) {
-			syncCartBadge();
+			scheduleCartBadgeSync();
 		}
+	} );
+	document.body.addEventListener( 'click', ( event ) => {
+		if ( event.target.closest( '.wc-block-cart-item__remove-link, .wc-block-components-quantity-selector__button' ) ) {
+			scheduleCartBadgeSync();
+		}
+	} );
+	document.body.addEventListener( 'ai-zippy-cart-count-updated', ( event ) => {
+		setCurrentCount( event.detail?.count );
 	} );
 	window.addEventListener( 'pageshow', syncCartBadge );
 } );
