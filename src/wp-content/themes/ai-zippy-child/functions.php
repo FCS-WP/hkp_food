@@ -70,7 +70,6 @@ function ai_zippy_child_enqueue_assets(): void
 }
 add_action('wp_enqueue_scripts', 'ai_zippy_child_enqueue_assets', 20);
 
-
 /**
  * Show only the registration form on My Account for logged-out users.
  */
@@ -91,3 +90,19 @@ function ai_zippy_child_hide_my_account_login_form(string $template, string $tem
     return $template;
 }
 add_filter('woocommerce_locate_template', 'ai_zippy_child_hide_my_account_login_form', 10, 3);
+
+/**
+ * Redirect product category pages to the shop page with corresponding filter
+ */
+function ai_zippy_child_redirect_product_cat_archive() {
+    if (is_tax('product_cat')) {
+        $term = get_queried_object();
+    
+        if ($term && !is_wp_error($term) && !empty($term->slug)) {
+            $new_url = add_query_arg('category', $term->slug, home_url('/shop/'));
+            wp_safe_redirect($new_url, 301);
+            exit;
+        }
+    }
+}
+add_action('template_redirect', 'ai_zippy_child_redirect_product_cat_archive');

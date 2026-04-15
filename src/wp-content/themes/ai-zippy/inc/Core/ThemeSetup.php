@@ -32,6 +32,9 @@ class ThemeSetup
         // Enable revisions for pages and products.
         add_post_type_support('page', 'revisions');
         add_post_type_support('product', 'revisions');
+
+        // Fix styles from child-theme not loading
+        add_action('wp_enqueue_scripts', 'wp_enqueue_global_styles', 1);
     }
 
     /**

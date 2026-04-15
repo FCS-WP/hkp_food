@@ -1,8 +1,8 @@
 // Product Showcase — Frontend + Editor styles
 
 // Brand colors
-$brand-red: var(--wp--preset--color--primary);
-$brand-text: var(--wp--preset--color--secondary);
+$brand-red: var(--wp--preset--color--primary, #c8000d);
+$brand-text: var(--wp--preset--color--secondary, #060606);
 $brand-bg: #ffffff;
 $brand-text-muted: #666666;
 
@@ -127,7 +127,7 @@ $font-body: var(--wp--preset--font-family--urbanist, 'Urbanist', sans-serif);
 		transition: background-color 0.3s ease, transform 0.2s ease;
 
 		&:hover {
-			background-color: darken($brand-red, 10%);
+			background-color: darken(#c8000d, 10%);
 			transform: translateY(-2px);
 		}
 	}
@@ -140,8 +140,8 @@ $font-body: var(--wp--preset--font-family--urbanist, 'Urbanist', sans-serif);
 		}
 	}
 
-	@media (max-width: 600px) {
-		padding: 3rem 1.5rem;
+	@media (max-width: 768px) {
+		padding: 2rem 1rem;
 
 		.product-showcase__grid {
 			grid-template-columns: 1fr;
@@ -157,5 +157,9 @@ $font-body: var(--wp--preset--font-family--urbanist, 'Urbanist', sans-serif);
 			width: 100%;
 			padding: 1rem;
 		}
+	}
+
+	@media (max-width: 400px) {
+		padding: 2rem 0;
 	}
 }
