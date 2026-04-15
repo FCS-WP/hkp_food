@@ -23,20 +23,43 @@ document.addEventListener( 'DOMContentLoaded', () => {
 			return parseInt( cartCountSource.getAttribute( 'data-wc-cart-count' ) || '0', 10 ) || 0;
 		}
 
+		const customCartRoot = document.querySelector( '#ai-zippy-cart' );
+		if ( customCartRoot ) {
+			const customQtyValues = customCartRoot.querySelectorAll( '.zc-row__qty-val' );
+			if ( customQtyValues.length ) {
+				return Array.from( customQtyValues ).reduce( ( total, valueNode ) => {
+					const value = parseInt( valueNode.textContent || '0', 10 ) || 0;
+					return total + value;
+				}, 0 );
+			}
+
+			const cartCountLabel = customCartRoot.querySelector( '.zc-items__count' );
+			if ( cartCountLabel ) {
+				const matched = cartCountLabel.textContent?.match( /(\d+)/ );
+				if ( matched ) {
+					return parseInt( matched[1], 10 ) || 0;
+				}
+			}
+
+			if ( customCartRoot.querySelector( '.zc-empty' ) ) {
+				return 0;
+			}
+		}
+
 		const quantityInputs = document.querySelectorAll(
 			'.wc-block-cart-items .wc-block-components-quantity-selector__input, .wc-block-cart-items .wc-block-components-quantity-selector input, .shop_table.cart input.qty, .woocommerce-cart-form input.qty'
 		);
 
-		if ( ! quantityInputs.length ) {
-			const headerInitial = headers[ 0 ]?.getAttribute( 'data-cart-count-initial' );
-			const parsedInitial = parseInt( headerInitial || '0', 10 );
-			return Number.isNaN( parsedInitial ) ? 0 : parsedInitial;
+		if ( quantityInputs.length ) {
+			return Array.from( quantityInputs ).reduce( ( total, input ) => {
+				const value = parseInt( input.value || input.getAttribute( 'value' ) || '0', 10 ) || 0;
+				return total + value;
+			}, 0 );
 		}
 
-		return Array.from( quantityInputs ).reduce( ( total, input ) => {
-			const value = parseInt( input.value || input.getAttribute( 'value' ) || '0', 10 ) || 0;
-			return total + value;
-		}, 0 );
+		const headerInitial = headers[ 0 ]?.getAttribute( 'data-cart-count-initial' );
+		const parsedInitial = parseInt( headerInitial || '0', 10 );
+		return Number.isNaN( parsedInitial ) ? 0 : parsedInitial;
 	};
 
 	let currentCount = isCartOrCheckout ? getCartPageCount() : getMiniCartDomCount();
@@ -260,7 +283,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		}
 	} );
 	document.body.addEventListener( 'click', ( event ) => {
-		if ( event.target.closest( '.wc-block-cart-item__remove-link, .wc-block-components-quantity-selector__button' ) ) {
+		if ( event.target.closest( '.wc-block-cart-item__remove-link, .wc-block-components-quantity-selector__button, #ai-zippy-cart .zc-row__qty-btn, #ai-zippy-cart .zc-row__remove, #ai-zippy-cart .zc-items__clear' ) ) {
 			scheduleCartBadgeSync();
 		}
 	} );
