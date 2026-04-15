@@ -44,6 +44,8 @@ foreach (glob(AI_ZIPPY_THEME_DIR . '/inc/setup/*.php') as $file) {
 // Core
 AiZippy\Core\ViteAssets::register();
 AiZippy\Core\ThemeSetup::register();
+AiZippy\Core\Customizer::register();
+AiZippy\Core\ThemeOptions::register();
 
 // Hooks
 AiZippy\Hooks\CacheInvalidation::register();

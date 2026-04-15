@@ -28,7 +28,10 @@ class ThemeSetup
         add_theme_support('editor-styles');
         add_theme_support('woocommerce');
         add_theme_support('responsive-embeds');
-        add_action('wp_enqueue_scripts', 'wp_enqueue_global_styles', 1);
+
+        // Enable revisions for pages and products.
+        add_post_type_support('page', 'revisions');
+        add_post_type_support('product', 'revisions');
     }
 
     /**

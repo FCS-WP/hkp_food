@@ -73,8 +73,8 @@ class ProductFilterApi
         return [
             'search'       => ['type' => 'string',  'sanitize_callback' => 'sanitize_text_field', 'default' => ''],
             'category'     => ['type' => 'string',  'sanitize_callback' => 'sanitize_text_field', 'default' => ''],
-            'min_price'    => ['type' => 'number',  'sanitize_callback' => 'absint',              'default' => 0],
-            'max_price'    => ['type' => 'number',  'sanitize_callback' => 'absint',              'default' => 0],
+            'min_price'    => ['type' => 'number',  'sanitize_callback' => fn($v) => (float) $v,  'default' => 0],
+            'max_price'    => ['type' => 'number',  'sanitize_callback' => fn($v) => (float) $v,  'default' => 0],
             'attributes'   => ['type' => 'string',  'sanitize_callback' => 'sanitize_text_field', 'default' => ''],
             'stock_status' => ['type' => 'string',  'sanitize_callback' => 'sanitize_text_field', 'default' => ''],
             'orderby'      => ['type' => 'string',  'sanitize_callback' => 'sanitize_text_field', 'default' => 'menu_order'],
@@ -128,7 +128,9 @@ class ProductFilterApi
                     $args['include'] = $merged_ids;
                 } else {
                     return new WP_REST_Response([
-                        'products' => [], 'total' => 0, 'pages' => 0,
+                        'products' => [],
+                        'total' => 0,
+                        'pages' => 0,
                     ], 200);
                 }
             } else {
@@ -141,12 +143,23 @@ class ProductFilterApi
             $args['category'] = array_map('trim', explode(',', $category));
         }
 
-        // Price range
-        if ($min_price > 0) {
-            $args['min_price'] = $min_price;
-        }
-        if ($max_price > 0) {
-            $args['max_price'] = $max_price;
+        // Price range — wc_get_products() ignores min_price/max_price directly;
+        // must filter via meta_query on _price.
+        if ($min_price > 0 || $max_price > 0) {
+            $price_clause = ['key' => '_price', 'type' => 'DECIMAL(10,2)'];
+
+            if ($min_price > 0 && $max_price > 0) {
+                $price_clause['value']   = [$min_price, $max_price];
+                $price_clause['compare'] = 'BETWEEN';
+            } elseif ($min_price > 0) {
+                $price_clause['value']   = $min_price;
+                $price_clause['compare'] = '>=';
+            } else {
+                $price_clause['value']   = $max_price;
+                $price_clause['compare'] = '<=';
+            }
+
+            $args['meta_query'] = [$price_clause];
         }
 
         // Stock status
@@ -159,6 +172,60 @@ class ProductFilterApi
             $tax_query = self::parseAttributeQuery($attributes);
             if (!empty($tax_query)) {
                 $args['tax_query'] = $tax_query;
+            }
+        }
+
+        // wc_get_products() does not reliably pass meta_query through to WP_Query.
+        // When price filtering is active, run a raw WP_Query to get matching IDs,
+        // then constrain wc_get_products() to those IDs.
+        if (!empty($args['meta_query'])) {
+            $price_meta_query = $args['meta_query'];
+            unset($args['meta_query']);
+
+            // Query both simple products and variable product variations.
+            // Variations store _price on their own post (post_type=product_variation),
+            // so we fetch their parent IDs too.
+            $id_query = new \WP_Query([
+                'post_type'      => ['product', 'product_variation'],
+                'post_status'    => 'publish',
+                'fields'         => 'ids',
+                'posts_per_page' => -1,
+                'meta_query'     => $price_meta_query,
+            ]);
+
+            $price_ids = [];
+            foreach ($id_query->posts as $id) {
+                $post = get_post($id);
+                // If it's a variation, use the parent product ID
+                $price_ids[] = ($post && $post->post_type === 'product_variation')
+                    ? $post->post_parent
+                    : $id;
+            }
+            $price_ids = array_unique(array_map('intval', $price_ids));
+
+            if (empty($price_ids)) {
+                return new WP_REST_Response([
+                    'products' => [],
+                    'total' => 0,
+                    'pages' => 0,
+                    'page' => $page,
+                    'per_page' => $per_page,
+                ], 200);
+            }
+
+            // Intersect with any existing include constraint (e.g. from SKU search)
+            $args['include'] = isset($args['include'])
+                ? array_intersect($args['include'], $price_ids)
+                : $price_ids;
+
+            if (empty($args['include'])) {
+                return new WP_REST_Response([
+                    'products' => [],
+                    'total' => 0,
+                    'pages' => 0,
+                    'page' => $page,
+                    'per_page' => $per_page,
+                ], 200);
             }
         }
 
@@ -262,7 +329,9 @@ class ProductFilterApi
 
         $categories = wp_get_post_terms($product->get_id(), 'product_cat', ['fields' => 'all']);
         $cat_list = array_map(fn($cat) => [
-            'id' => $cat->term_id, 'name' => $cat->name, 'slug' => $cat->slug,
+            'id' => $cat->term_id,
+            'name' => $cat->name,
+            'slug' => $cat->slug,
         ], $categories);
 
         $attrs = [];
@@ -340,7 +409,9 @@ class ProductFilterApi
                     'slug'    => $taxonomy,
                     'type'    => $attribute->attribute_type,
                     'options' => array_map(fn($t) => [
-                        'name' => $t->name, 'slug' => $t->slug, 'count' => $t->count,
+                        'name' => $t->name,
+                        'slug' => $t->slug,
+                        'count' => $t->count,
                     ], $terms),
                 ];
             }
