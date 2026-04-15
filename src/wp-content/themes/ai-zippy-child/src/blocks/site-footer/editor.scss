@@ -1,5 +1,5 @@
 // Site Footer block – editor-only styles
-$brand-red: #c0392b;
+$brand-red: var(--wp--preset--color--primary, #c8000d);
 $footer-text: #fff;
 
 .site-footer {
