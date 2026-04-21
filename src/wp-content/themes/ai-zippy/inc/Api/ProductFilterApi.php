@@ -386,13 +386,13 @@ class ProductFilterApi
             return [];
         }
 
-        return array_map(fn($cat) => [
+        return array_values(array_map(fn($cat) => [
             'id'     => $cat->term_id,
             'name'   => $cat->name,
             'slug'   => $cat->slug,
             'count'  => $cat->count,
             'parent' => $cat->parent,
-        ], $categories);
+        ], $categories));
     }
 
     private static function getAttributes(): array
@@ -408,11 +408,11 @@ class ProductFilterApi
                     'name'    => $attribute->attribute_label,
                     'slug'    => $taxonomy,
                     'type'    => $attribute->attribute_type,
-                    'options' => array_map(fn($t) => [
+                    'options' => array_values(array_map(fn($t) => [
                         'name' => $t->name,
                         'slug' => $t->slug,
                         'count' => $t->count,
-                    ], $terms),
+                    ], $terms)),
                 ];
             }
         }

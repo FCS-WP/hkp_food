@@ -2,7 +2,8 @@ import { useState, useEffect, useCallback } from "react";
 import { fetchProducts, fetchFilterOptions } from "./api.js";
 import useFilters from "./useFilters.js";
 import FilterPanel from "./components/FilterPanel.jsx";
-import ProductGrid from "./components/ProductGrid.jsx";
+// import ProductGrid from "./components/ProductGrid.jsx";
+import ProductGrid from "@shop-filter/ProductGrid";
 import Toolbar from "./components/Toolbar.jsx";
 import ActiveFilters from "./components/ActiveFilters.jsx";
 import Pagination from "./components/Pagination.jsx";
@@ -132,6 +133,8 @@ export default function ShopFilter({ config }) {
 						loading={loading}
 						viewMode={viewMode}
 						perPage={filters.per_page}
+						filters={filters}
+						options={options}
 					/>
 
 					{pages > 1 && (
