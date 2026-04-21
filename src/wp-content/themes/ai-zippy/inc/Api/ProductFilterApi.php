@@ -380,6 +380,7 @@ class ProductFilterApi
             'taxonomy'   => 'product_cat',
             'hide_empty' => true,
             'orderby'    => 'name',
+            'pad_counts' => true,   // include child category counts in parent totals
         ]);
 
         if (is_wp_error($categories)) {
@@ -388,7 +389,7 @@ class ProductFilterApi
 
         return array_values(array_map(fn($cat) => [
             'id'     => $cat->term_id,
-            'name'   => $cat->name,
+            'name'   => html_entity_decode($cat->name, ENT_QUOTES | ENT_HTML5, 'UTF-8'),
             'slug'   => $cat->slug,
             'count'  => $cat->count,
             'parent' => $cat->parent,

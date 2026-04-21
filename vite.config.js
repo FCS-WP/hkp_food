@@ -73,6 +73,10 @@ export default defineConfig({
 			"@": parentSrc,
 			"@scss": resolve(parentSrc, "scss"),
 			"@child": childSrc,
+			"@shop-filter/ProductGrid": existsSync(resolve(childSrc, "js/shop-filter/ProductGrid.jsx"))
+				? resolve(childSrc, "js/shop-filter/ProductGrid.jsx")
+				: resolve(parentSrc, "js/shop-filter/components/ProductGrid.jsx"),
+			"@shop-filter/Pagination": resolve(parentSrc, "js/shop-filter/components/Pagination.jsx"),
 		},
 	},
 });

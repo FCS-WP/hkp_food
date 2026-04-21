@@ -176,7 +176,6 @@ function SearchInput({ defaultValue, onChange }) {
 }
 
 function CategoryList({ categories, selected, onToggle }) {
-	console.log("categories", categories);
 	// Build tree structure
 	const roots = categories.filter((c) => c.parent === 0);
 	const children = (parentId) =>

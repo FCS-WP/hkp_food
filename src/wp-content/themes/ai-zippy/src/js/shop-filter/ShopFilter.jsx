@@ -137,7 +137,8 @@ export default function ShopFilter({ config }) {
 						options={options}
 					/>
 
-					{pages > 1 && (
+					{/* Pagination — only shown in filtered mode; grouped mode handles its own pagination */}
+					{!!filters.category && pages > 1 && (
 						<Pagination
 							current={filters.page}
 							total={pages}

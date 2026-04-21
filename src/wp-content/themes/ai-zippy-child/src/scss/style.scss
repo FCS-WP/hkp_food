@@ -1111,6 +1111,23 @@ body.search {
 	}
 }
 
+/* Shop — category-grouped product grid */
+.sf__cat-section {
+	margin-bottom: 2.5rem;
+}
+
+.sf__cat-section-title {
+	font-family: var(--wp--preset--font-family--poppins);
+	font-size: 24px;
+	font-weight: 500;
+	color: var(--wp--preset--color--primary);
+	padding-top: 0.75rem;
+	padding-bottom: 0.75rem;
+	border-bottom: 2px solid var(--wp--preset--color--primary);
+	margin-bottom: 1.25rem;
+	margin-top: 0;
+}
+
 /* My Account page */
 .woocommerce-account {
 	main.wp-block-group {
