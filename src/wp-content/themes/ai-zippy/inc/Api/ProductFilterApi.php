@@ -379,7 +379,8 @@ class ProductFilterApi
         $categories = get_terms([
             'taxonomy'   => 'product_cat',
             'hide_empty' => true,
-            'orderby'    => 'name',
+            'orderby'    => 'menu_order',
+            'order'      => 'ASC',
             'pad_counts' => true,   // include child category counts in parent totals
         ]);
 
