@@ -1,5 +1,29 @@
 .wp-block-ai-zippy-child-our-story {
 	.our-story__image-placeholder {
 		min-height: 320px;
+		cursor: pointer;
+
+		&:hover {
+			background-color: #ddd;
+		}
+	}
+
+	.our-story__image-wrap {
+		position: relative;
+
+		&:hover .our-story__image-actions {
+			opacity: 1;
+		}
+	}
+
+	.our-story__image-actions {
+		position: absolute;
+		bottom: 8px;
+		left: 50%;
+		transform: translateX(-50%);
+		display: flex;
+		gap: 6px;
+		opacity: 0;
+		transition: opacity 0.15s;
 	}
 }

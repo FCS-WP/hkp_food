@@ -9,7 +9,7 @@ $wp-body-font: var(--wp--preset--font-family--urbanist, 'Urbanist', sans-serif);
 
 	.our-story__container {
 		display: grid;
-		grid-template-columns: minmax(220px, 318px) minmax(0, 1fr);
+		grid-template-columns: var(--os-left-width, 30%) var(--os-right-width, 70%);
 		align-items: start;
 		gap: clamp(2rem, 5vw, 4rem);
 		max-width: 1200px;
@@ -24,7 +24,7 @@ $wp-body-font: var(--wp--preset--font-family--urbanist, 'Urbanist', sans-serif);
 	.our-story__image-placeholder {
 		display: block;
 		width: 100%;
-		aspect-ratio: 318 / 487;
+		// aspect-ratio: 318 / 487;
 		background-color: #efefef;
 		border-radius: 8px;
 		overflow: hidden;
@@ -47,7 +47,25 @@ $wp-body-font: var(--wp--preset--font-family--urbanist, 'Urbanist', sans-serif);
 	.our-story__content {
 		display: flex;
 		flex-direction: column;
-		gap: 1.25rem;
+		gap: 1.5rem;
+
+		.wp-block-image {
+			margin: 0;
+
+			img {
+				margin: 0 auto;
+				display: block;
+			}
+		}
+
+		p {
+			margin: 0;
+			font-family: $wp-body-font;
+			font-size: var(--wp--preset--font-size--medium);
+			font-weight: 400;
+			line-height: 1.35;
+			color: $wp-secondary;
+		}
 	}
 
 	.our-story__heading {
@@ -81,10 +99,6 @@ $wp-body-font: var(--wp--preset--font-family--urbanist, 'Urbanist', sans-serif);
 
 		.our-story__media {
 			max-width: 320px;
-		}
-
-		.our-story__content {
-			gap: 1rem;
 		}
 	}
 

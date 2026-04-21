@@ -6,7 +6,7 @@
 	"title": "Our Story",
 	"category": "ai-zippy",
 	"icon": "columns",
-	"description": "A two-column story section with a portrait image and rich text content.",
+	"description": "A two-column story section with a portrait image on the left and editable content blocks on the right.",
 	"keywords": ["story", "about", "content", "history"],
 	"supports": {
 		"html": false,
@@ -33,21 +33,13 @@
 			"type": "string",
 			"default": ""
 		},
-		"heading": {
-			"type": "string",
-			"default": "Our Story: From Humble Beginnings to Singapore Favourite"
+		"leftWidth": {
+			"type": "number",
+			"default": 30
 		},
-		"paragraphOne": {
-			"type": "string",
-			"default": "Introducing Ho Kee Pau (Singapore) Pte Ltd, where the heart of our business lies in the delectable art of crafting traditional Chinese buns known as \u201cPau\u201d. From our humble origins in a cozy coffee shop to our current empire spanning 10 outlets across the island, the journey of Ho Kee Pau is one of passion, flavor, and relentless dedication."
-		},
-		"paragraphTwo": {
-			"type": "string",
-			"default": "Since our inception in 1992, Ho Kee Pau has evolved from a modest food stall into a flourishing chain specializing in authentic Chinese buns, dim sum delights, comforting congee, and a medley of local favorites. Our mission? To delight customers with unparalleled quality at prices."
-		},
-		"paragraphThree": {
-			"type": "string",
-			"default": "But we\u2019re not just about preserving tradition; we\u2019re also about embracing innovation. Transitioning from humble hawker stalls to vibrant food kiosks nestled in bustling shopping malls, Ho Kee Pau has become a household name, catering to the fast-paced lifestyles of Singapore\u2019s dynamic working class. Join us as we continue to redefine convenience, one mouthwatering bite at a time."
+		"rightWidth": {
+			"type": "number",
+			"default": 70
 		}
 	},
 	"textdomain": "ai-zippy-child",

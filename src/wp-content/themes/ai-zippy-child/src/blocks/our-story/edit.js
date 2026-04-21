@@ -1,134 +1,115 @@
 import { __ } from "@wordpress/i18n";
 import {
 	useBlockProps,
-	RichText,
 	MediaUpload,
 	MediaUploadCheck,
+	InnerBlocks,
 	InspectorControls,
 } from "@wordpress/block-editor";
-import { PanelBody, Button } from "@wordpress/components";
+import { Button, PanelBody, RangeControl } from "@wordpress/components";
 
-function ImageControl({ imageId, imageUrl, imageAlt, setAttributes }) {
-	return (
-		<MediaUploadCheck>
-			<MediaUpload
-				onSelect={(media) =>
-					setAttributes({
-						imageId: media.id,
-						imageUrl: media.url,
-						imageAlt: media.alt || "",
-					})
-				}
-				allowedTypes={["image"]}
-				value={imageId}
-				render={({ open }) => (
-					<div>
-						<p style={{ marginBottom: "8px", fontWeight: 600 }}>
-							{__("Story Image", "ai-zippy-child")}
-						</p>
-						{imageUrl && (
-							<img
-								src={imageUrl}
-								alt={imageAlt}
-								style={{
-									maxWidth: "100%",
-									marginBottom: "8px",
-									borderRadius: "8px",
-								}}
-							/>
-						)}
-						<Button onClick={open} variant="secondary">
-							{imageUrl
-								? __("Replace Image", "ai-zippy-child")
-								: __("Select Image", "ai-zippy-child")}
-						</Button>
-						{imageUrl && (
-							<Button
-								onClick={() =>
-									setAttributes({
-										imageId: 0,
-										imageUrl: "",
-										imageAlt: "",
-									})
-								}
-								variant="link"
-								isDestructive
-								style={{ marginLeft: "8px" }}
-							>
-								{__("Remove", "ai-zippy-child")}
-							</Button>
-						)}
-					</div>
-				)}
-			/>
-		</MediaUploadCheck>
-	);
-}
+const TEMPLATE = [
+	[ "core/heading", { level: 2, placeholder: __( "Our Story heading", "ai-zippy-child" ), className: "our-story__heading" } ],
+	[ "core/paragraph", { placeholder: __( "First paragraph…", "ai-zippy-child" ), className: "our-story__paragraph" } ],
+	[ "core/paragraph", { placeholder: __( "Second paragraph…", "ai-zippy-child" ), className: "our-story__paragraph" } ],
+	[ "core/paragraph", { placeholder: __( "Third paragraph…", "ai-zippy-child" ), className: "our-story__paragraph" } ],
+];
 
 export default function Edit({ attributes, setAttributes }) {
-	const { imageId, imageUrl, imageAlt, heading, paragraphOne, paragraphTwo, paragraphThree } =
-		attributes;
+	const { imageId, imageUrl, imageAlt, leftWidth, rightWidth } = attributes;
 
-	const blockProps = useBlockProps();
+	const blockProps = useBlockProps({
+		style: {
+			"--os-left-width": `${leftWidth}%`,
+			"--os-right-width": `${rightWidth}%`,
+		},
+	});
 
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody title={__("Image Settings", "ai-zippy-child")} initialOpen={true}>
-					<ImageControl
-						imageId={imageId}
-						imageUrl={imageUrl}
-						imageAlt={imageAlt}
-						setAttributes={setAttributes}
+				<PanelBody title={__( "Column Widths", "ai-zippy-child" )} initialOpen={true}>
+					<RangeControl
+						label={__( "Left column (%)", "ai-zippy-child" )}
+						value={leftWidth}
+						onChange={( val ) => setAttributes({ leftWidth: val, rightWidth: 100 - val })}
+						min={10}
+						max={90}
+						step={5}
+					/>
+					<RangeControl
+						label={__( "Right column (%)", "ai-zippy-child" )}
+						value={rightWidth}
+						onChange={( val ) => setAttributes({ rightWidth: val, leftWidth: 100 - val })}
+						min={10}
+						max={90}
+						step={5}
 					/>
 				</PanelBody>
 			</InspectorControls>
 
 			<div {...blockProps}>
 				<div className="our-story__container">
+
+					{/* Left column — inline image picker */}
 					<div className="our-story__media">
-						{imageUrl ? (
-							<img src={imageUrl} alt={imageAlt} className="our-story__image" />
-						) : (
-							<div className="our-story__image-placeholder">
-								<span>{__("Select an image in the sidebar", "ai-zippy-child")}</span>
-							</div>
-						)}
+						<MediaUploadCheck>
+							<MediaUpload
+								onSelect={( media ) =>
+									setAttributes({
+										imageId: media.id,
+										imageUrl: media.url,
+										imageAlt: media.alt || "",
+									})
+								}
+								allowedTypes={[ "image" ]}
+								value={imageId}
+								render={({ open }) =>
+									imageUrl ? (
+										<div className="our-story__image-wrap">
+											<img
+												src={imageUrl}
+												alt={imageAlt}
+												className="our-story__image"
+											/>
+											<div className="our-story__image-actions">
+												<Button onClick={open} variant="secondary" size="small">
+													{__( "Replace", "ai-zippy-child" )}
+												</Button>
+												<Button
+													onClick={() =>
+														setAttributes({ imageId: 0, imageUrl: "", imageAlt: "" })
+													}
+													variant="secondary"
+													size="small"
+													isDestructive
+												>
+													{__( "Remove", "ai-zippy-child" )}
+												</Button>
+											</div>
+										</div>
+									) : (
+										<button
+											type="button"
+											className="our-story__image-placeholder"
+											onClick={open}
+										>
+											<span>{__( "Click to select image", "ai-zippy-child" )}</span>
+										</button>
+									)
+								}
+							/>
+						</MediaUploadCheck>
 					</div>
 
+					{/* Right column — free-form InnerBlocks */}
 					<div className="our-story__content">
-						<RichText
-							tagName="h2"
-							className="our-story__heading"
-							value={heading}
-							onChange={(value) => setAttributes({ heading: value })}
-							placeholder={__("Our Story heading", "ai-zippy-child")}
-						/>
-
-						<RichText
-							tagName="p"
-							className="our-story__paragraph"
-							value={paragraphOne}
-							onChange={(value) => setAttributes({ paragraphOne: value })}
-							placeholder={__("First paragraph", "ai-zippy-child")}
-						/>
-
-						<RichText
-							tagName="p"
-							className="our-story__paragraph"
-							value={paragraphTwo}
-							onChange={(value) => setAttributes({ paragraphTwo: value })}
-							placeholder={__("Second paragraph", "ai-zippy-child")}
-						/>
-
-						<RichText
-							tagName="p"
-							className="our-story__paragraph"
-							value={paragraphThree}
-							onChange={(value) => setAttributes({ paragraphThree: value })}
-							placeholder={__("Third paragraph", "ai-zippy-child")}
+						<InnerBlocks
+							template={TEMPLATE}
+							templateLock={false}
 						/>
 					</div>
+
 				</div>
 			</div>
 		</>
