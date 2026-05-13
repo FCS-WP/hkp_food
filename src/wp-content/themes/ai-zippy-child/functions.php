@@ -67,6 +67,21 @@ function ai_zippy_child_enqueue_assets(): void
             filemtime($child_css)
         );
     }
+
+    // Sequential payment-box toggle on checkout / order-pay (prevents slide jump).
+    if (function_exists('is_checkout') && (is_checkout() || is_wc_endpoint_url('order-pay'))) {
+        $payment_js = get_stylesheet_directory() . '/assets/js/wc-payment-toggle.js';
+
+        if (file_exists($payment_js)) {
+            wp_enqueue_script(
+                'ai-zippy-child-wc-payment-toggle',
+                get_stylesheet_directory_uri() . '/assets/js/wc-payment-toggle.js',
+                ['jquery'],
+                filemtime($payment_js),
+                true
+            );
+        }
+    }
 }
 add_action('wp_enqueue_scripts', 'ai_zippy_child_enqueue_assets', 20);
 
