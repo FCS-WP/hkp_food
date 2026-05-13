@@ -4,7 +4,7 @@
 All PHP logic lives in `inc/` under the `AiZippy\` namespace.
 
 ```
-AiZippy\Core\ViteAssets     → inc/Core/ViteAssets.php
+AiZippy\Core\ViteAssets      → inc/Core/ViteAssets.php
 AiZippy\Api\ProductFilterApi → inc/Api/ProductFilterApi.php
 AiZippy\Checkout\CheckoutAssets → inc/Checkout/CheckoutAssets.php
 ```
