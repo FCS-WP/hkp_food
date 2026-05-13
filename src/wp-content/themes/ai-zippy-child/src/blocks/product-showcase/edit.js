@@ -176,6 +176,7 @@ function ProductPreview({ productId, index }) {
 	}
 
 	const title = product.title.rendered;
+	const chineseName = product.chinese_name || '';
 	const excerpt = product.excerpt?.rendered
 		?.replace(/<[^>]+>/g, "")
 		?.substring(0, 120) + "...";
@@ -186,6 +187,9 @@ function ProductPreview({ productId, index }) {
 				<div className="product-showcase__product-image-placeholder" />
 			</div>
 			<h3 className="product-showcase__product-title">{title}</h3>
+			{chineseName && (
+				<span className="product-showcase__product-chinese-name">{chineseName}</span>
+			)}
 			{excerpt && (
 				<p className="product-showcase__product-excerpt">{excerpt}</p>
 			)}

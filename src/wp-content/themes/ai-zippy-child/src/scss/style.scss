@@ -60,6 +60,85 @@ body > .wp-site-blocks > main.cart-page.wp-block-group > .wp-block-heading {
   }
 }
 
+.sf__card-chinese-name {
+	font-size: 0.9rem;
+	font-weight: 600;
+	color: var(--wp--preset--color--primary, #1a1a1a);
+	line-height: 1.3;
+	display: block;
+}
+
+.sf__card-chinese-name + .sf__card-rating {
+	margin-top: 1rem;
+}
+
+.sf__card-title:has(+ .sf__card-chinese-name) {
+	margin-bottom: 0;
+}
+
+.sf__card-title:not(:has(+ .sf__card-chinese-name)) + .sf__card-rating {
+	margin-top: 1rem;
+}
+
+/* Mini-cart / Cart block Chinese name */
+.cart-chinese-name {
+	display: block;
+	font-weight: 600;
+	color: inherit;
+	margin-top: 0.15rem;
+	/* Default to checkout/cart size */
+	font-size: 0.8rem;
+}
+
+.wc-block-mini-cart-items .cart-chinese-name {
+	font-size: 0.85rem;
+}
+
+/* Custom cart page (#ai-zippy-cart) Chinese name */
+.zc-row__chinese-name {
+	font-weight: 600;
+	font-size: 0.875rem;
+	color: var(--wp--preset--color--primary, #1a1a1a);
+	line-height: 1.3;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/* Custom checkout page (#ai-zippy-checkout) Chinese name */
+.zk__order-item-chinese-name {
+	display: block;
+	font-size: 0.8rem;
+	font-weight: 600;
+	color: var(--wp--preset--color--primary, #1a1a1a);
+	line-height: 1.35;
+}
+
+/* Classic WooCommerce checkout / review-order cart item Chinese name */
+.cart-item-chinese-name {
+	display: block;
+	font-weight: 600;
+	color: var(--wp--preset--color--primary, #1a1a1a);
+	line-height: 1.35;
+}
+
+/* Thank-You / Order-Received page Chinese name */
+.az-thankyou__item-chinese-name {
+	display: block;
+	font-size: 0.8rem;
+	font-weight: 600;
+	color: var(--wp--preset--color--primary, #1a1a1a);
+	line-height: 1.35;
+}
+
+/* Order-Pay / Order-Details table cell Chinese name */
+.order-item-chinese-name {
+	display: block;
+	font-weight: 600;
+	color: var(--wp--preset--color--primary, #1a1a1a);
+	line-height: 1.35;
+}
+
 .sf--top .sf__filters--top,
 .sf__view-btn.is-active,
 .sf__layout-btn.is-active {
@@ -337,13 +416,22 @@ footer.wp-block-template-part {
 			color: var(--sp-secondary);
 		}
 
-		h1.wp-block-post-title {
+		h1.wp-block-post-title,
+		.product-chinese-name {
 			font-family: var(--wp--preset--font-family--poppins);
 			font-size: clamp(2rem, 4vw, 3rem);
 			font-weight: 500;
 			line-height: 1.1;
 			color: var(--sp-primary);
 			margin: 0 0 1rem;
+		}
+
+		.product-chinese-name {
+			display: block;
+		}
+
+		h1.wp-block-post-title:has(+ .product-chinese-name) {
+			margin-bottom: 0;
 		}
 
     .wc-block-components-product-sku {

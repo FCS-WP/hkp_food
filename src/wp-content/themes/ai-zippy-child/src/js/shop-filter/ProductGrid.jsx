@@ -358,6 +358,9 @@ function ProductCard({ product, viewMode }) {
 				<a href={product.permalink} className="sf__card-title">
 					{product.name}
 				</a>
+				{product.chineseName && (
+					<span className="sf__card-chinese-name">{product.chineseName}</span>
+				)}
 
 				{product.average_rating > 0 && (
 					<div className="sf__card-rating">
