@@ -33,7 +33,14 @@ export default function OrderSummary({
 							</div>
 							<div className="zk__order-item-detail">
 								<div className="zk__order-item-top">
-									<span className="zk__order-item-name">{item.name}</span>
+									<span className="zk__order-item-name">
+										{item.name}
+										{item.extensions?.["ai-zippy-child"]?.chineseName && (
+											<span className="zk__order-item-chinese-name">
+												{item.extensions["ai-zippy-child"].chineseName}
+											</span>
+										)}
+									</span>
 									<span className="zk__order-item-total">
 										{formatPrice(item.totals?.line_total, currency)}
 									</span>

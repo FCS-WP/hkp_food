@@ -48,6 +48,7 @@ if (!empty($product_ids) && function_exists('wc_get_product')) {
                     <?php
                     $product_id   = $product->get_id();
                     $product_name = $product->get_name();
+                    $chinese_name = get_post_meta($product_id, 'chinese_name', true);
                     $product_desc = $product->get_short_description() ?: $product->get_description();
                     $product_desc = wp_trim_words($product_desc, 20);
                     $product_url  = $product->get_permalink();
@@ -65,6 +66,9 @@ if (!empty($product_ids) && function_exists('wc_get_product')) {
                             <?php endif; ?>
                         </div>
                         <h3 class="product-showcase__product-title"><?php echo esc_html($product_name); ?></h3>
+                        <?php if (!empty($chinese_name)) : ?>
+                            <span class="product-showcase__product-chinese-name"><?php echo esc_html($chinese_name); ?></span>
+                        <?php endif; ?>
                         <?php if ($product_desc) : ?>
                             <p class="product-showcase__product-description"><?php echo esc_html($product_desc); ?></p>
                         <?php endif; ?>

@@ -8,6 +8,7 @@ function formatPrice(priceStr, decimals = 2) {
 export default function CartRow({ item, busy, onUpdateQty, onRemove }) {
 	const img = item.images?.[0];
 	const name = item.name;
+	const chineseName = item.extensions?.["ai-zippy-child"]?.chineseName || "";
 	const variation = item.variation
 		?.map((v) => v.value)
 		.filter(Boolean)
@@ -47,6 +48,7 @@ export default function CartRow({ item, busy, onUpdateQty, onRemove }) {
 			{/* Product info */}
 			<div className="zc-row__info">
 				<span className="zc-row__name">{name}</span>
+				{chineseName && <span className="zc-row__chinese-name">{chineseName}</span>}
 				{variation && <span className="zc-row__variant">{variation}</span>}
 			</div>
 
