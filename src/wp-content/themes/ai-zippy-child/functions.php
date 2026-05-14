@@ -68,6 +68,21 @@ function ai_zippy_child_enqueue_assets(): void
         );
     }
 
+    // Load shop-filter card CSS on single-product pages so the related-products
+    // section can reuse the .sf__card markup from the shop grid.
+    if (function_exists('is_product') && is_product()) {
+        $shop_filter_css = get_template_directory() . '/assets/dist/css/shop-filter.css';
+
+        if (file_exists($shop_filter_css)) {
+            wp_enqueue_style(
+                'ai-zippy-shop-filter-card',
+                get_template_directory_uri() . '/assets/dist/css/shop-filter.css',
+                ['ai-zippy-child-style'],
+                filemtime($shop_filter_css)
+            );
+        }
+    }
+
     // Sequential payment-box toggle on checkout / order-pay (prevents slide jump).
     if (function_exists('is_checkout') && (is_checkout() || is_wc_endpoint_url('order-pay'))) {
         $payment_js = get_stylesheet_directory() . '/assets/js/wc-payment-toggle.js';
@@ -461,3 +476,96 @@ function ai_zippy_child_cart_chinese_name_script(): void
     <?php
 }
 add_action('wp_footer', 'ai_zippy_child_cart_chinese_name_script');
+
+/**
+ * Render related products on single-product pages using the same .sf__card
+ * markup as the shop grid (so the styles in shop-filter.css apply directly).
+ * Skips the .sf__card-actions block (no Add to Cart on related products).
+ *
+ * Usage in template: <!-- wp:shortcode -->[az_related_products]<!-- /wp:shortcode -->
+ */
+function ai_zippy_child_related_products_shortcode($atts): string
+{
+    if (!function_exists('wc_get_related_products') || !is_product()) {
+        return '';
+    }
+
+    $atts = shortcode_atts([
+        'limit'   => 4,
+        'heading' => __('Related products', 'ai-zippy-child'),
+    ], $atts, 'az_related_products');
+
+    $product_id = get_the_ID();
+    $related_ids = wc_get_related_products($product_id, (int) $atts['limit']);
+
+    if (empty($related_ids)) {
+        return '';
+    }
+
+    ob_start();
+    ?>
+    <section class="az-related-products">
+        <?php if (!empty($atts['heading'])) : ?>
+            <h2 class="az-related-products__heading"><?php echo esc_html($atts['heading']); ?></h2>
+        <?php endif; ?>
+        <div class="sf__grid sf__grid--grid az-related-products__grid">
+            <?php foreach ($related_ids as $related_id) :
+                $product = wc_get_product($related_id);
+                if (!$product || !$product->is_visible()) {
+                    continue;
+                }
+                $permalink     = get_permalink($related_id);
+                $name          = $product->get_name();
+                $chinese_name  = (string) get_post_meta($related_id, 'chinese_name', true);
+                $image_html    = $product->get_image('woocommerce_thumbnail');
+                $price_html    = $product->get_price_html();
+                $cats          = wc_get_product_terms($related_id, 'product_cat', ['fields' => 'names']);
+                $primary_cat   = !empty($cats) ? $cats[0] : '';
+                $on_sale       = $product->is_on_sale();
+                $sale_percent  = 0;
+                if ($on_sale) {
+                    $regular = (float) $product->get_regular_price();
+                    $sale    = (float) $product->get_sale_price();
+                    if ($regular > 0 && $sale > 0) {
+                        $sale_percent = (int) round((($regular - $sale) / $regular) * 100);
+                    }
+                }
+            ?>
+                <div class="sf__card">
+                    <div class="sf__card-image">
+                        <a href="<?php echo esc_url($permalink); ?>"><?php echo $image_html; ?></a>
+                        <?php if ($on_sale) : ?>
+                            <span class="sf__badge sf__badge--sale"><?php echo $sale_percent > 0 ? esc_html($sale_percent . '% OFF') : esc_html__('Sale', 'ai-zippy-child'); ?></span>
+                        <?php endif; ?>
+                        <?php if (!$product->is_in_stock()) : ?>
+                            <span class="sf__badge sf__badge--oos"><?php esc_html_e('Sold Out', 'ai-zippy-child'); ?></span>
+                        <?php endif; ?>
+                        <button class="sf__card-wish" type="button" aria-label="<?php esc_attr_e('Add to wishlist', 'ai-zippy-child'); ?>">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </button>
+                    </div>
+                    <div class="sf__card-info">
+                        <?php if ($primary_cat !== '') : ?>
+                            <span class="sf__card-cat"><?php echo esc_html($primary_cat); ?></span>
+                        <?php endif; ?>
+                        <a href="<?php echo esc_url($permalink); ?>" class="sf__card-title"><?php echo esc_html($name); ?></a>
+                        <?php if ($chinese_name !== '') : ?>
+                            <span class="sf__card-chinese-name"><?php echo esc_html($chinese_name); ?></span>
+                        <?php endif; ?>
+                        <div class="sf__card-pricing">
+                            <span class="sf__card-price"><?php echo $price_html; ?></span>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </section>
+    <?php
+    $output = (string) ob_get_clean();
+
+    // Collapse whitespace between tags + trim leading/trailing whitespace so the
+    // wp:shortcode block's wpautop wrapper has nothing to convert into <br> / <p></p>.
+    $output = preg_replace('/>\s+</', '><', $output);
+    return trim($output);
+}
+add_shortcode('az_related_products', 'ai_zippy_child_related_products_shortcode');
