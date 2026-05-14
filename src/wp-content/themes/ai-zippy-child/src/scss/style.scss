@@ -1176,9 +1176,9 @@ body.woocommerce-order-pay {
 			color: var(--sp-secondary);
 		}
 
-		.woocommerce-Price-amount {
-			font-size: clamp(1.5rem, 3vw, 2rem);
-		}
+		// .woocommerce-Price-amount {
+		// 	font-size: clamp(1.5rem, 3vw, 2rem);
+		// }
 
 		.wp-block-post-excerpt__excerpt,
 		.woocommerce-product-details__short-description,
@@ -1294,6 +1294,42 @@ body.woocommerce-order-pay {
 			border-radius: calc(var(--sp-radius) + 2px);
 			box-shadow: var(--sp-shadow);
 			padding: 1.5rem;
+		}
+
+		/* Hide the product-details block entirely when it has no real content (avoids an empty white card). */
+		.wp-block-woocommerce-product-details:not(:has(p, ul, ol, table, dl, h1, h2, h3, h4, h5, h6, img, blockquote, iframe, figure)) {
+			display: none;
+		}
+
+		/* Related products — reuses the shop's .sf__card markup; only style the wrapper here. */
+		.az-related-products {
+			margin-top: 3rem;
+
+			/* Hide stray empty <p></p> that wpautop injects inside the wp:shortcode block. */
+			p:empty {
+				display: none !important;
+			}
+
+			.az-related-products__heading {
+				font-size: 1.5rem;
+				font-weight: 600;
+				margin: 0 0 1.5rem;
+				color: var(--sp-primary, #1a1a1a);
+			}
+
+			.az-related-products__grid {
+				display: grid;
+				grid-template-columns: repeat(4, 1fr);
+				gap: 1.25rem;
+
+				@media (max-width: 900px) {
+					grid-template-columns: repeat(3, 1fr);
+				}
+
+				@media (max-width: 600px) {
+					grid-template-columns: repeat(2, 1fr);
+				}
+			}
 		}
 
 		.woocommerce-tabs ul.tabs {
