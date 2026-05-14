@@ -186,7 +186,9 @@ function ai_zippy_child_rest_add_chinese_name(): void
 add_action('rest_api_init', 'ai_zippy_child_rest_add_chinese_name');
 
 /**
- * Inject Chinese Name right after the post title block on single product pages.
+ * Inject Chinese Name right after the post title block whenever the current
+ * post is a product — covers single-product page, search results, archives,
+ * and any product-collection loop that uses core/post-title.
  */
 function ai_zippy_child_inject_chinese_name_after_title(string $block_content, array $block): string
 {
@@ -194,17 +196,19 @@ function ai_zippy_child_inject_chinese_name_after_title(string $block_content, a
         return $block_content;
     }
 
-    if (!is_product()) {
+    $post_id = get_the_ID();
+
+    if (!$post_id || get_post_type($post_id) !== 'product') {
         return $block_content;
     }
 
-    $chinese_name = get_post_meta(get_the_ID(), 'chinese_name', true);
+    $chinese_name = get_post_meta($post_id, 'chinese_name', true);
 
     if (empty($chinese_name)) {
         return $block_content;
     }
 
-    $span = '<span class="product-chinese-name has-x-large-font-size">' . esc_html($chinese_name) . '</span>';
+    $span = '<span class="product-chinese-name">' . esc_html($chinese_name) . '</span>';
 
     return $block_content . $span;
 }
