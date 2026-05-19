@@ -10,7 +10,7 @@ const DEFAULTS = {
 	orderby: "menu_order",
 	order: "ASC",
 	page: 1,
-	per_page: 12,
+	per_page: 50,
 };
 
 export default function useFilters(config = {}) {

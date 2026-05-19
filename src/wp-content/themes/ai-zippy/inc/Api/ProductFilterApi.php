@@ -80,7 +80,7 @@ class ProductFilterApi
             'orderby'      => ['type' => 'string',  'sanitize_callback' => 'sanitize_text_field', 'default' => 'menu_order'],
             'order'        => ['type' => 'string',  'sanitize_callback' => 'sanitize_text_field', 'default' => 'ASC'],
             'page'         => ['type' => 'integer', 'sanitize_callback' => 'absint',              'default' => 1],
-            'per_page'     => ['type' => 'integer', 'sanitize_callback' => 'absint',              'default' => 12],
+            'per_page'     => ['type' => 'integer', 'sanitize_callback' => 'absint',              'default' => 50],
         ];
     }
 

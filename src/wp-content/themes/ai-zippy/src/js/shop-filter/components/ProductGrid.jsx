@@ -23,7 +23,7 @@ export default function ProductGrid({ products, loading, viewMode, perPage }) {
 		}
 	}, [loading]);
 
-	const skeletonCount = perPage || 12;
+	const skeletonCount = perPage || 50;
 
 	return (
 		<div ref={containerRef} className="sf__grid-wrap">
