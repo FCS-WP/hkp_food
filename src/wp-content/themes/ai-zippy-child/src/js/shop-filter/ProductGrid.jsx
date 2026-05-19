@@ -86,7 +86,7 @@ export default function ProductGrid({ products, loading, viewMode, perPage, filt
 	const [groupedLoading, setGroupedLoading] = useState(false);
 	const [groupedPage, setGroupedPage] = useState(1);
 
-	const pageSize = perPage || 12;
+	const pageSize = perPage || 50;
 
 	// Build a stable cache key from non-category filters so we re-fetch when they change
 	const filterCacheKey = [

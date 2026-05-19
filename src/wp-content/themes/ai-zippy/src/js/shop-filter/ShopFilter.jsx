@@ -28,7 +28,7 @@ export default function ShopFilter({ config }) {
 		setSearch,
 		toggleAttribute,
 		toggleCategory,
-	} = useFilters({ per_page: config.per_page || 12 });
+	} = useFilters({ per_page: config.per_page || 50 });
 
 	// Load filter options once
 	useEffect(() => {
@@ -69,7 +69,7 @@ export default function ShopFilter({ config }) {
 					<div className="sf__filters-skeleton" />
 					<div className="sf__products">
 						<div className={`sf__grid-loading sf__grid-loading--grid`}>
-							{Array.from({ length: config.per_page || 12 }).map((_, i) => (
+							{Array.from({ length: config.per_page || 50 }).map((_, i) => (
 								<div key={i} className="sf__skeleton" />
 							))}
 						</div>
